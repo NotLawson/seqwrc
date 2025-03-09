@@ -11,8 +11,15 @@
         <span>
         <b style="font-size:x-large;">SEQWRC
         <input class="sitenav_button" type="button" value="Home" onclick="window.location.href='/'">
+        <input class="sitenav_button" type="button" value="Feed" onclick="window.location.href='/feed'">
+        <input class="sitenav_button" type="button" value="Joe" onclick="window.location.href='/joe'">
         <input class="sitenav_button" type="button" value="About" onclick="window.location.href='/about'">
-        <input class="sitenav_button" type="button" value="Contact" onclick="window.location.href='/contact'">  
+        <input class="sitenav_button" type="button" value="Contact" onclick="window.location.href='/contact'">
+        {% if user %}
+        <input class="sitenav_button" style="float: right;" type="button" value="Account" onclick="window.location.href='/account'">
+        {% else %}
+        <input class="sitenav_button" style="float: right" type="button" value="Login" onclick="window.location.href='/login'">
+        {% endif %}
         </b></span>
     </div>
 </head>

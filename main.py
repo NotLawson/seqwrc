@@ -1,5 +1,113 @@
 from flask import Flask, request, render_template
+import psycopg2
 
+## DATABASE SETUP ##
+conn = psycopg2.connect(
+    host="db",
+    database="seqwrc",
+    user="postgres",
+    password="postgres"
+)
+cursor = conn.cursor()
+cursor.auto_commit = True
+
+# create tables
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(50) NOT NULL,
+    bio TEXT,
+    followers TEXT[],
+    following TEXT[],
+    posts TEXT[],
+    events TEXT[],
+    gear TEXT[],
+''')
+
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS posts (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    date DATE NOT NULL,
+    content TEXT NOT NULL,
+    likes TEXT[],
+    comments TEXT[],
+    type VARCHAR(10) NOT NULL
+''')
+
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS shoes (
+    id SERIAL PRIMARY KEY,
+    brand VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    review TEXT NOT NULL,
+    date DATE NOT NULL,
+    tags TEXT[]
+''')
+
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS blog (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(50) NOT NULL,
+    date DATE NOT NULL,
+    content TEXT NOT NULL,
+    comments TEXT[],
+    tags TEXT[]
+''')
+
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS contact (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    message TEXT NOT NULL
+''')
+
+# create admin user
+cursor.execute('''INSERT INTO users (username, password, email, name, bio, followers, following, posts, events, gear) VALUES ('admin', 'admin', 'lawson.conallin@gmail.com', 'Admin', 'Admin user. \nUsually Run by NotLawson (lawson.conallin@gmail.com).', '{}', '{}', '{}', '{}', '{}')''')
+
+# db functions
+def get_user(username):
+    cursor.execute(f'SELECT * FROM users WHERE username = {username}')
+    return cursor.fetchone()
+def get_user_id(user_id):
+    cursor.execute(f'SELECT * FROM users WHERE id = {user_id}')
+    return cursor.fetchone()
+
+def get_post(post_id):
+    cursor.execute(f'SELECT * FROM posts WHERE id = {post_id}')
+    return cursor.fetchone()
+def get_posts(user_id):
+    cursor.execute(f'SELECT * FROM posts WHERE user_id = {user_id}')
+    return cursor.fetchall()
+def get_all_posts():
+    cursor.execute('''
+    SELECT sub.*
+    FROM (SELECT * 
+          FROM posts 
+          ORDER BY date DESC
+          LIMIT 100
+         ) sub
+    ORDER BY date ASC;
+    ''')
+    return cursor.fetchall()
+def get_following_posts(username):
+    cursor.execute(f'SELECT following FROM users WHERE username = {username}')
+    following = cursor.fetchone()[0]
+    cursor.execute('''
+    SELECT sub.*
+    FROM (SELECT * 
+          FROM posts
+          WHERE user_id = ANY(%s)
+          ORDER BY date DESC
+          LIMIT 100
+         ) sub
+    ORDER BY date ASC;
+    ''', (following,))
+    return cursor.fetchall()
 
 app = Flask(__name__)
 
