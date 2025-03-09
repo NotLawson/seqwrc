@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 0%;
+    margin: 0%;
+    text-align: center;
+}
+article {
+    padding-left: 20%;
+    padding-right: 20%;
+    text-align: left;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.full {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.l {
+    grid-column-start: 1;
+    grid-column-end: 1;
+}
+.r {
+    grid-column-start: 2;
+    grid-column-end: 2;
+}

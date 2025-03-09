@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+
+{% block content %}
+    <h1 class="full">Login</h1>
+    <form id="login-form" class="full">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}
