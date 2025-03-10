@@ -119,7 +119,7 @@ def get_all_posts():
     ''')
     return cursor.fetchall()
 def get_following_posts(username):
-    cursor.execute(f'SELECT following FROM users WHERE username = {username}')
+    cursor.execute('SELECT following FROM users WHERE username = %s', (username,))
     following = cursor.fetchone()[0]
     cursor.execute('''
     SELECT sub.*
