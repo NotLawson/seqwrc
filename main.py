@@ -157,7 +157,7 @@ def main_index():
     Main page of the website.
     '''
     id=auth(request)
-    if id == None:
+    if id == False:
         return render_template('index.html')
     else:
         user = get_user_id(id)
@@ -169,7 +169,7 @@ def main_about():
     About page for SEQWRC
     '''
     id=auth(request)
-    if id == None:
+    if id == False:
         return render_template('about.html')
     else:
         user = get_user_id(id)
@@ -183,7 +183,7 @@ def main_contact():
     Contains a form that logs a message to the database, which can be accessed by the admin at admin_contact (/admin/contact)
     '''
     id=auth(request)
-    if id == None:
+    if id == False:
         user = None
     else:
         user = get_user_id(id)
@@ -273,6 +273,8 @@ def accounts_account():
     See admin_login for more info on accounts
     '''
     id = auth(request)
+    if id == False:
+        return redirect('/login?next=/account')
     user = get_user_id(id)
     if user == None:
         return redirect('/login?next=/account')
