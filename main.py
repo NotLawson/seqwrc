@@ -21,8 +21,9 @@ if LOCAL == False:
         user="postgres",
         password="postgres"
     )
+    conn.autocommit = True
     cursor = conn.cursor()
-    cursor.autocommit = True
+    
 
     # create tables
     cursor.execute('''
