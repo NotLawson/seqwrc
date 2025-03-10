@@ -14,6 +14,14 @@
     padding: 5px;
     margin: 5px;
 }
+.logout {
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #0044ff;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+}
 .danger_zone {
     border: 3px dashed red;
     border-radius: 10px;
