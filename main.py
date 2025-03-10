@@ -156,14 +156,25 @@ def main_index():
     '''
     Main page of the website.
     '''
-    return render_template('index.html')
+    id=auth(request)
+    if id == None:
+        return render_template('index.html')
+    else:
+        user = get_user_id(id)
+        return render_template('index.html', user=user)
 
 @app.route('/about')
 def main_about():
     '''
     About page for SEQWRC
     '''
-    return render_template('about.html')
+    id=auth(request)
+    if id == None:
+        return render_template('about.html')
+    else:
+        user = get_user_id(id)
+        return render_template('about.html', user=user)
+
 
 @app.route('/contact', methods=['GET', 'POST'])
 def main_contact():
@@ -171,13 +182,19 @@ def main_contact():
     Contact page for SEQWRC
     Contains a form that logs a message to the database, which can be accessed by the admin at admin_contact (/admin/contact)
     '''
+    id=auth(request)
+    if id == None:
+        user = None
+    else:
+        user = get_user_id(id)
+
     if request.method == "POST":
         name = request.form['name']
         email = request.form['email']
         message = request.form['message']
         cursor.execute(f"INSERT INTO contact (name, email, message) VALUES ('{name}', '{email}', '{message}')")
-        return render_template('contact.html', message_good=message)
-    return render_template('contact.html')
+        return render_template('contact.html', message_good=message, user=user)
+    return render_template('contact.html', user=user)
 
 @app.route('/search')
 def main_search():
