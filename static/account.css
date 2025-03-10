@@ -1,0 +1,24 @@
+.delete {
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #ff0000;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+}
+.update {
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #00ff2a;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+}
+.danger_zone {
+    border: 3px dashed red;
+    border-radius: 10px;
+    background-color: #ff000048;
+    padding: 10px;
+    align-items: center;
+    
+}

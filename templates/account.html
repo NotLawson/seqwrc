@@ -1,9 +1,36 @@
 {% extends "main.html" %}
 
 {% block imports %}
-
+<link rel="stylesheet" href="/static/account.css">
 {% endblock %}
 
 {% block content %}
-
+<h1 class="full">Account</h1>
+<div class="full">>
+    <form method="POST">
+        <p>Username<br>
+        <input type="text" name="username" value="{{user[1]}}" required></p>
+        <p>Password<br>
+        <input type="password" name="password" value="{{user[2]}}" required></p>
+        <p>Email<br>
+        <input type="email" name="email" value="{{user[3]}}" required></p>
+        <p>Name<br>
+        <input type="text" name="name" value="{{user[4]}}" required></p>
+        <input type="submit" value="Update" class="update">
+    </form>
+    <div class="danger_zone">
+        <h2>Danger Zone</h2>
+        <input type="button" value="Delete Account" class="delete" onclick="deleteAccount()">
+    </div>
+</div>
+<script>
+    function deleteAccount() {
+        if (confirm("Are you sure you want to delete your account?")) {
+            fetch("/account", {
+                method: "DELETE"
+            });
+            window.location.href = "/";
+        }
+    }
+</script>
 {% endblock %}

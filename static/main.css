@@ -9,7 +9,7 @@ article {
     padding-right: 20%;
     text-align: left;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr 1fr;
 }
 
 .full {
@@ -19,9 +19,38 @@ article {
 
 .l {
     grid-column-start: 1;
-    grid-column-end: 1;
+    grid-column-end: 2;
 }
 .r {
     grid-column-start: 2;
-    grid-column-end: 2;
+    grid-column-end: 3;
+}
+
+.popup {
+    margin: 10px;
+    padding: 10px;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: #0077ff;
+}
+.popupbad {
+    margin: 10px;
+    padding: 10px;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: #ff0000;
+}
+.popupgood {
+    margin: 10px;
+    padding: 10px;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: #00ff2a;
+}
+.popupwarn {
+    margin: 10px;
+    padding: 10px;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: #ffaa00;
 }

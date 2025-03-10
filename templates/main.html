@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% if title %}
     <title>{{ title }}</title>
+    {% else %}
+    <title>SEQWRC</title>
+    {% endif %}
     <link rel="stylesheet" type="text/css" href="/static/main.css">
     <link rel="stylesheet" type="text/css" href="/static/navbar.css">
     <script src="/static/main.js" defer></script>
+    <link rel="icon" href="/static/other/logo.jpg" type="image/x-icon">
     {% block imports %}
     {% endblock %}
     <div class="sitenav">
@@ -12,7 +17,8 @@
         <b style="font-size:x-large;">SEQWRC
         <input class="sitenav_button" type="button" value="Home" onclick="window.location.href='/'">
         <input class="sitenav_button" type="button" value="Feed" onclick="window.location.href='/feed'">
-        <input class="sitenav_button" type="button" value="Joe" onclick="window.location.href='/joe'">
+        <input class="sitenav_button" type="button" value="Profiles" onclick="window.location.href='/profile'">
+        <input class="sitenav_button" type="button" value="Joe's" onclick="window.location.href='/joe'">
         <input class="sitenav_button" type="button" value="About" onclick="window.location.href='/about'">
         <input class="sitenav_button" type="button" value="Contact" onclick="window.location.href='/contact'">
         {% if user %}
@@ -24,10 +30,30 @@
     </div>
 </head>
 <body>
-    <h1>{{ title }}</h1>
+    {% if message_good %}
+    <div class="full popupgood">
+        <p>Popup good</p>
+    </div>
+    {% endif %}
+    {% if message_bad %}
+    <div class="popupbad">
+        <p>Popup bad</p>
+    </div>
+    {% endif %}
+    {% if message_warn %}
+    <div class="popupwarn">
+        <p>Popup warn</p>
+    </div>
+    {% endif %}
+    {% if message %}
+    <div class="popup">
+        <p>Popup info</p>
+    </div>
+    {% endif %}
     <article>
-        <span class="full">
         {% block content %}
+        
+        <span class="full">
         <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Blandit euismod sit quisque ullamcorper metus rhoncus. Metus rhoncus sit etiam gravida morbi suscipit magna eu. Proin congue facilisis vivamus vel porta eu conubia. Nunc iaculis sollicitudin quam aptent hendrerit arcu; duis urna semper. Fringilla platea morbi justo suscipit nec tristique. Auctor id efficitur fames fames cubilia aliquam mauris posuere. Ante rhoncus justo pellentesque conubia, tristique sed dui.
 
             Lacinia lectus aptent hendrerit interdum lectus fringilla; euismod facilisi. Praesent leo cras elementum efficitur; nascetur primis nisi habitasse tempus. Consectetur torquent habitasse urna ullamcorper consectetur nulla. Semper laoreet malesuada arcu fusce, nisl malesuada dictumst ultricies. Condimentum et pulvinar torquent potenti imperdiet rhoncus. Ultricies justo quisque erat habitant hendrerit enim. Mollis erat nisl primis imperdiet nibh.

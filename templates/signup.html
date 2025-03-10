@@ -5,5 +5,14 @@
 {% endblock %}
 
 {% block content %}
-
+<h1 class="full">Sign Up</h1>
+<div class="full">
+    <form method="post">
+        <input type="text" name="username" placeholder="Username" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+        <input type="email" name="email" placeholder="Email" required><br>
+        <input type="text" name="name" placeholder="Name" required><br>
+        <input type="submit" value="Sign Up">
+    </form>
+</div>
 {% endblock %}
