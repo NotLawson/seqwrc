@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, make_response, redirect
 import psycopg2
-import sys, os
+import sys, os, time
 
 ## GET FLAGS ##
 args = sys.argv[1:]
@@ -291,6 +291,7 @@ def accounts_account():
         name = request.form['name']
 
         cursor.execute(f"UPDATE users SET username = '{username}', password = '{password}', email = '{email}', name = '{name}' WHERE id = {id}")
+        user = get_user_id(id)
         return render_template('account.html', user=user, message_good="Account updated")
     return render_template('account.html', user=user)
 
