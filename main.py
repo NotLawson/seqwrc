@@ -22,7 +22,7 @@ if LOCAL == False:
         password="postgres"
     )
     cursor = conn.cursor()
-    cursor.auto_commit = True
+    cursor.autocommit = True
 
     # create tables
     cursor.execute('''
