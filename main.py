@@ -91,10 +91,10 @@ if LOCAL == False:
 
 # db functions
 def get_user(username):
-    cursor.execute(f'SELECT * FROM users WHERE username = {username}')
+    cursor.execute(f"SELECT * FROM users WHERE username = '{username}'")
     return cursor.fetchone()
 def get_user_id(user_id):
-    cursor.execute(f'SELECT * FROM users WHERE id = {user_id}')
+    cursor.execute(f"SELECT * FROM users WHERE id = '{user_id}'")
     return cursor.fetchone()
 def create_user(username, password, email, name):
     cursor.execute(f"INSERT INTO users (username, password, email, name, bio, followers, following, posts, events, gear) VALUES ('%s', '%s', '%s', '%s', "", '{}', '{}', '{}', '{}', '{}')", (username, password, email, name))
