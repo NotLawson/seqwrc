@@ -38,7 +38,8 @@ if LOCAL == False:
         following TEXT[],
         posts TEXT[],
         events TEXT[],
-        gear TEXT[],
+        gear TEXT[]
+    )
     ''')
 
     cursor.execute('''
@@ -50,6 +51,7 @@ if LOCAL == False:
         likes TEXT[],
         comments TEXT[],
         type VARCHAR(10) NOT NULL
+    )
     ''')
 
     cursor.execute('''
@@ -60,6 +62,7 @@ if LOCAL == False:
         review TEXT NOT NULL,
         date DATE NOT NULL,
         tags TEXT[]
+    )
     ''')
 
     cursor.execute('''
@@ -70,6 +73,7 @@ if LOCAL == False:
         content TEXT NOT NULL,
         comments TEXT[],
         tags TEXT[]
+    )
     ''')
 
     cursor.execute('''
@@ -78,6 +82,7 @@ if LOCAL == False:
         name VARCHAR(50) NOT NULL,
         email VARCHAR(50) NOT NULL,
         message TEXT NOT NULL
+    )
     ''')
 
     # create admin user
