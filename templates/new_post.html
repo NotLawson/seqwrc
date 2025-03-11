@@ -24,7 +24,7 @@
         <input type="submit" value="Post">
     </form>
 </div>
-<div class="full" id="run">
+<div class="full" id="run" hidden>
     <h3>Run</h3>
     <form method="post">
         <input type="hidden" name="type" value="run">
@@ -41,8 +41,8 @@
         <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required></textarea><br><br>
         <input type="submit" value="Post">
     </form>
-</div>
-<div class="full" id="event">
+</div> 
+<div class="full" id="event" hidden>
     <h3>Event</h3>
     <form method="post">
         <input type="hidden" name="type" value="event">
@@ -59,3 +59,5 @@
         <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required></textarea><br><br>
         <input type="submit" value="Post">
     </form>
+</div>
+{% endblock %}
