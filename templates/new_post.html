@@ -1,0 +1,61 @@
+{% extends "main.html" %}
+
+{% block imports %}
+<link rel="stylesheet" href="/static/new_post.css">
+<script defer src="/static/new_post.js"></script>
+{% endblock %}
+
+{% block content %}
+<h1 class="full">New Post</h1>
+<select class="full" id="type" onchange="select_type()">
+    <option value="post">Post</option>
+    <option value="run">Run</option>
+    <option value="event">Event</option>
+</select>
+
+<div class="full" id="post">
+    <h3>Post</h3>
+    <form method="post">
+        <input type="hidden" name="type" value="post">
+        <label for="title">Title</label><br>
+        <input type="text" name="title" placeholder="Title" required><br><br>
+
+        <textarea name="content" style="width: 50%; height: 300px;" placeholder="Content" required></textarea><br><br>
+        <input type="submit" value="Post">
+    </form>
+</div>
+<div class="full" id="run">
+    <h3>Run</h3>
+    <form method="post">
+        <input type="hidden" name="type" value="run">
+        <label for="title">Title</label><br>
+        <input type="text" name="title" placeholder="Title" required><br><br>
+
+        <label for="distance">Distance (km)</label><br>
+        <input type="number" name="distance" placeholder="Distance (km)" step="0.01" required><br>
+        <p>
+            <label>Time</label><br>
+            <input type="number" name="hours" value=0 max=12 min=0 required>:<input type="number" name="minutes" value=0 max=59 min=0 required>:<input type="number" name="seconds" value=0 max=59 min=0 required>
+        </p><br>
+        <label for="description">Description</label><br>
+        <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required></textarea><br><br>
+        <input type="submit" value="Post">
+    </form>
+</div>
+<div class="full" id="event">
+    <h3>Event</h3>
+    <form method="post">
+        <input type="hidden" name="type" value="event">
+        <label for="title">Title</label><br>
+        <input type="text" name="title" placeholder="Title" required><br><br>
+
+        <label for="date">Date</label><br>
+        <input type="date" name="date" required><br><br>
+
+        <label for="Location">Location</label><br>
+        <input type="text" name="location" placeholder="Location" required><br><br>
+
+        <label for="description">Description</label><br>
+        <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required></textarea><br><br>
+        <input type="submit" value="Post">
+    </form>

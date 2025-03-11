@@ -339,7 +339,59 @@ def social_new_post():
     Creates a new post
     See social_feed for more info on posts
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    if request.method == "POST":
+        title = request.form['title']
+        type = request.form['type']
+        if type=="post":
+            data = {
+                "content":request.form['content']
+            }
+            
+        elif type=="run":
+            distance = request.form['distance']
+            hours = request.form['hours']
+            minutes = request.form['minutes']
+            seconds = request.form['seconds']
+            hours_in_mins = int(hours)*60
+            mins_in_seconds = (int(minutes)+hours_in_mins)*60
+            time = mins_in_seconds + int(seconds)
+            pace_in_seconds = int(time/float(distance))
+            pace_in_mins = str(int(pace_in_seconds/60)).split(".")
+            pace_in_mins[0] = int(pace_in_mins[0])
+            pace_in_mins[1] = 60/int(pace_in_mins[1])
+            
+            pace = f'{pace_in_mins[0]}:{pace_in_mins[1]}'
+            time = f'{hours}:{minutes}:{seconds}'
+            description = request.form['description']
+            data = {
+                "distance": distance,
+                "time": time,
+                "pace": pace,
+                "description": description
+            }
+        elif type=="event":
+            date = request.form['date']
+            location = request.form['location']
+            description = request.form['description']
+
+            data = {
+                "date": date,
+                "location": location,
+                "description": description
+            }
+
+        cursor.execute("INSERT INTO posts (user_id, title, date, content, likes, comments, type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user[0], title, time.strftime('%Y-%m-%d'), data, '{}', '{}', type))
+        post = cursor.fetchone()
+        return redirect(f'/feed/{post[0]}')
+
+    return render_template("new_post.html", user=user)
 
 @app.route('/feed/<post_id>', methods=['GET', 'POST'])
 def social_post(post_id):
