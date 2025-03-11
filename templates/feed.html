@@ -23,7 +23,7 @@
 
         {% elif post[6]=="run" %}
         {% set content = json.loads(post[3]) %}
-        <p>{{content["distance"]}}km | {{content["time"]}} | {{content["pace"]min/km}}</p>
+        <p>{{content["distance"]}}km | {{content["time"]}} | {{content["pace"]}}min/km</p>
         <p>{{content["description"]}}</p>
 
         {% elif post[6]=="event" %}
@@ -47,7 +47,7 @@
 
         {% elif post[6]=="run" %}
         {% set content = json.loads(post[3]) %}
-        <p>{{content["distance"]}}km | {{content["time"]}} | {{content["pace"]min/km}}</p>
+        <p>{{content["distance"]}}km | {{content["time"]}} | {{content["pace"]}}min/km</p>
         <p>{{content["description"]}}</p>
 
         {% elif post[6]=="event" %}
