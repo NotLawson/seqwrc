@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, make_response, redirect
-import psycopg2
+import psycopg2, json
 import sys, os, time
 
 ## GET FLAGS ##
@@ -15,6 +15,9 @@ else:
 
 ## DATABASE SETUP ##
 if LOCAL == False:
+    from psycopg2.extras import Json
+    from psycopg2.extensions import register_adapter
+    register_adapter(dict, Json)
     conn = psycopg2.connect(
         host="db",
         database="seqwrc",
@@ -46,8 +49,9 @@ if LOCAL == False:
     CREATE TABLE IF NOT EXISTS posts (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id),
+        title VARCHAR(50) NOT NULL,
         date DATE NOT NULL,
-        content TEXT NOT NULL,
+        content TEXT[] NOT NULL,
         likes TEXT[],
         comments TEXT[],
         type VARCHAR(10) NOT NULL
@@ -306,16 +310,28 @@ def social_feed():
      - Post: Contains text and images
     All posts have the following metadata:
      - User: The user who posted the post
+     - Title: The title of the post
      - Date: The date the post was posted
      - Likes: A list of users who have liked the post
      - Comments: A list of comments on the post
-     - Content: The content of the post. For Runs and Events, this is the description of the post.
-                Can contain images and YT videos, images will be stored in a static user folder and linked via Markdown
-                Can contain Markdown, but no HTML
+     - Content: The content of the post.
     
     This page will display posts from users that the current user follows, aswell as all posts in a seperate tab.
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    posts = get_following_posts(user[1])
+    if posts==None:
+        posts = []
+    all_posts = get_all_posts()
+    if all_posts==None:
+        all_posts = []
+    return render_template('feed.html', user=user, posts=posts, all_posts=all_posts, get_user_id=get_user_id, json=json)
 
 @app.route('/feed/new', methods=['GET', 'POST'])
 def social_new_post():

@@ -1,9 +1,61 @@
 {% extends "main.html" %}
 
 {% block imports %}
-
+<link rel="stylesheet" href="/static/feed.css">
+<script defer src="/static/feed.js"></script>
 {% endblock %}
 
 {% block content %}
+<h1 class="full">Feed</h1>
+<input type="button" id="following_button" class="l section selected" value="Following" style="align-items: center;" onclick="select_following()">
+<input type="button" id="all_button" class="l section " value="All" style="align-items: center;" onclick="select_all()">
+<br><br>
+<div class="full" id="following">
+    Following
+    {% for post in following %}
+    <div class="post" id="post[0]">
+        {{ set post_user = get_user_id(post[1]) }}
+        <h3>{{ post[2] }}</h3>
+        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[2] }}</h4>
+        {% if post[6]=="post" %}
+        {% set content = json.loads(post[3]) %}
+        <p>{{ content["content"] }}</p>
 
+        {% elif post[6]=="run" %}
+        {% set content = json.loads(post[3]) %}
+        <p>{{content["distance"]}}km | {{content["time"]}} | {{content["pace"]min/km}}</p>
+        <p>{{content["description"]}}</p>
+
+        {% elif post[6]=="event" %}
+        {% set content = json.loads(post[3]) %}
+        <p>{{content["date"]}} | {{content["time"]}}</p>
+        <p>{{content["description"]}}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+<div class="full" id="all" hidden>
+    All
+    {% for post in all %}
+    <div class="post" id="post[0]">
+        {{ set post_user = get_user_id(post[1]) }}
+        <h3>{{ post[2] }}</h3>
+        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[2] }}</h4>
+        {% if post[6]=="post" %}
+        {% set content = json.loads(post[3]) %}
+        <p>{{ content["content"] }}</p>
+
+        {% elif post[6]=="run" %}
+        {% set content = json.loads(post[3]) %}
+        <p>{{content["distance"]}}km | {{content["time"]}} | {{content["pace"]min/km}}</p>
+        <p>{{content["description"]}}</p>
+
+        {% elif post[6]=="event" %}
+        {% set content = json.loads(post[3]) %}
+        <p>{{content["date"]}} | {{content["time"]}}</p>
+        <p>{{content["description"]}}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
