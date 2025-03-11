@@ -14,7 +14,7 @@
     Following
     {% for post in following %}
     <div class="post" id="post[0]">
-        {{ set post_user = get_user_id(post[1]) }}
+        {% set post_user = get_user_id(post[1]) %}
         <h3>{{ post[2] }}</h3>
         <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[2] }}</h4>
         {% if post[6]=="post" %}
@@ -38,7 +38,7 @@
     All
     {% for post in all %}
     <div class="post" id="post[0]">
-        {{ set post_user = get_user_id(post[1]) }}
+        {% set post_user = get_user_id(post[1]) %}
         <h3>{{ post[2] }}</h3>
         <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[2] }}</h4>
         {% if post[6]=="post" %}
