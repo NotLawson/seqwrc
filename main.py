@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, make_response, redirect
 import psycopg2, json
 import sys, os, time
 from datetime import datetime
+from datetime import timezone, timedelta
 
 ## GET FLAGS ##
 args = sys.argv[1:]
@@ -388,7 +389,7 @@ def social_new_post():
                 "description": description
             }
 
-        datetime.now("Australia/Brisbane").strftime('%Y-%m-%d')
+        date = datetime.now(timezone(timedelta(hours=10))).strftime("%Y-%m-%d")
         cursor.execute("INSERT INTO posts (user_id, title, date, content, likes, comments, type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user[0], title, date, data, '{}', '{}', type))
         post = cursor.fetchone()
         return redirect(f'/feed/{post[0]}')
