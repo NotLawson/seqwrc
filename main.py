@@ -390,7 +390,7 @@ def social_new_post():
             }
 
         date = datetime.now(timezone(timedelta(hours=10))).strftime("%Y-%m-%d")
-        cursor.execute("INSERT INTO posts (user_id, title, date, content, likes, comments, type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user[0], title, date, data, '{}', '{}', type))
+        cursor.execute("INSERT INTO posts (user_id, title, date, content, likes, comments, type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user[0], title, date, json.dumps(data), '{}', '{}', type))
         post = cursor.fetchone()
         return redirect(f'/feed/{post[0]}')
 
