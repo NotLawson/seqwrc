@@ -12,7 +12,6 @@
 <input type="button" id="all_button" class="r section " value="All" style="align-items: center;" onclick="select_all()">
 <br><br>
 <div class="full" id="following">
-    Following
     {% for post in following %}
     <div class="post" id="post[0]">
         {% set post_user = get_user_id(post[1]) %}
@@ -36,8 +35,6 @@
     {% endfor %}
 </div>
 <div class="full" id="all" hidden>
-    All
-    {{ str(all)}}
     {% for post in all %}
     <div class="post" id="post[0]">
         {% set post_user = get_user_id(post[1]) %}

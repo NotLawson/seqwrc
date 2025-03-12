@@ -333,7 +333,7 @@ def social_feed():
     all_posts = get_all_posts()
     if all_posts==None:
         all_posts = ()
-    return render_template('feed.html', user=user, posts=posts, all_posts=all_posts, get_user_id=get_user_id, json=json, str=str)
+    return render_template('feed.html', user=user, posts=posts, all=all_posts, get_user_id=get_user_id, json=json, str=str)
 
 @app.route('/feed/new', methods=['GET', 'POST'])
 def social_new_post():
@@ -391,8 +391,7 @@ def social_new_post():
 
         date = datetime.now(timezone(timedelta(hours=10))).strftime("%Y-%m-%d")
         cursor.execute("INSERT INTO posts (user_id, title, date, content, likes, comments, type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user[0], title, date, json.dumps(data), '{}', '{}', type))
-        post = cursor.fetchone()
-        return redirect(f'/feed/{post[0]}')
+        return redirect(f'/feed')
 
     return render_template("new_post.html", user=user)
 
