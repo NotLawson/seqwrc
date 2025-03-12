@@ -13,7 +13,7 @@
 <br><br>
 <div class="full" id="following">
     {% for post in following %}
-    <div class="post" id="post[0]">
+    <div class="post" id="{{ post[0] }}">
         {% set post_user = get_user_id(post[1]) %}
         <h3>{{ post[2] }}</h3>
         <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[2] }}</h4>
@@ -30,13 +30,17 @@
         {% set content = json.loads(post[3]) %}
         <p>{{content["date"]}} | {{content["time"]}}</p>
         <p>{{content["description"]}}</p>
+                
+        {% else %}
+        <p>Error: Post type unknown: {{ post[6] }}</p>
+        <p>{{ post[3] }}</p>
         {% endif %}
     </div>
     {% endfor %}
 </div>
 <div class="full" id="all" hidden>
     {% for post in all %}
-    <div class="post" id="post[0]">
+    <div class="post" id="{{ post[0] }}">
         {% set post_user = get_user_id(post[1]) %}
         <h3>{{ post[2] }}</h3>
         <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[2] }}</h4>
@@ -53,6 +57,10 @@
         {% set content = json.loads(post[3]) %}
         <p>{{content["date"]}} | {{content["time"]}}</p>
         <p>{{content["description"]}}</p>
+        
+        {% else %}
+        <p>Error: Post type unknown: {{ post[6] }}</p>
+        <p>{{ post[3] }}</p>
         {% endif %}
     </div>
     {% endfor %}
