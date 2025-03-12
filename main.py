@@ -43,7 +43,7 @@ if LOCAL == False:
         following TEXT[],
         posts TEXT[],
         events TEXT[],
-        gear TEXT[]
+        gear json
     )
     ''')
 
@@ -53,7 +53,7 @@ if LOCAL == False:
         user_id INTEGER REFERENCES users(id),
         title VARCHAR(50) NOT NULL,
         date DATE NOT NULL,
-        content TEXT[] NOT NULL,
+        content json NOT NULL,
         likes TEXT[],
         comments TEXT[],
         type VARCHAR(10) NOT NULL
