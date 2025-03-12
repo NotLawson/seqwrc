@@ -386,8 +386,9 @@ def social_new_post():
                 "location": location,
                 "description": description
             }
-
-        cursor.execute("INSERT INTO posts (user_id, title, date, content, likes, comments, type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user[0], title, time.strftime('%Y-%m-%d'), data, '{}', '{}', type))
+        
+        date = time.strftime('%Y-%m-%d')
+        cursor.execute("INSERT INTO posts (user_id, title, date, content, likes, comments, type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user[0], title, date, data, '{}', '{}', type))
         post = cursor.fetchone()
         return redirect(f'/feed/{post[0]}')
 
