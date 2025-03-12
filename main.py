@@ -332,7 +332,7 @@ def social_feed():
         posts = []
     all_posts = get_all_posts()
     if all_posts==None:
-        all_posts = []
+        all_posts = ()
     return render_template('feed.html', user=user, posts=posts, all_posts=all_posts, get_user_id=get_user_id, json=json)
 
 @app.route('/feed/new', methods=['GET', 'POST'])

@@ -37,6 +37,7 @@
 </div>
 <div class="full" id="all" hidden>
     All
+    {{ str(all)}}
     {% for post in all %}
     <div class="post" id="post[0]">
         {% set post_user = get_user_id(post[1]) %}
