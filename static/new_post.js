@@ -8,7 +8,7 @@ function select_type() {
     if (select.value == "post") {
         ev.setAttribute("hidden", "hidden");
         run.setAttribute("hidden", "hidden")
-        post.removeAttribute("post");
+        post.removeAttribute("hidden");
     } else if (select.value == "run") {
         ev.setAttribute("hidden", "hidden");
         post.setAttribute("hidden", "hidden")
