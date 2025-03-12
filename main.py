@@ -367,7 +367,7 @@ def social_new_post():
             pace_in_seconds = int(time/float(distance))
             pace_in_mins = str(int(pace_in_seconds/60)).split(".")
             pace_in_mins[0] = int(pace_in_mins[0])
-            if len(pace_in_mins[1]) == 1:
+            if len(pace_in_mins) == 1:
                 pace_in_mins[1] = 0
             else:
                 pace_in_mins[1] = 60/int(pace_in_mins[1])
