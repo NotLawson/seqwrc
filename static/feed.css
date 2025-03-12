@@ -1,16 +1,22 @@
-.section
-{
+.section {
     font-size: 28px;
     border: 0px none #000000;
     background-color: white;
 }
 
-.section:hover
-{
+.section:hover {
     background-color: #cfcfcf;
 }
 
-.selected
-{
+.selected {
     text-decoration: underline;
+}
+
+.post {
+    font-size: 20px;
+    border: 1px solid #000000;
+    background-color: #dddddd;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
 }
