@@ -55,7 +55,7 @@ if LOCAL == False:
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id),
         title VARCHAR(50) NOT NULL,
-        date DATE NOT NULL,
+        date timestampz NOT NULL,
         content json NOT NULL,
         likes TEXT[],
         comments TEXT[],
