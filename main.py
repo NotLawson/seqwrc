@@ -3,6 +3,9 @@ import psycopg2, json
 import sys, os, time
 from datetime import datetime
 from datetime import timezone, timedelta
+import pytz
+
+
 
 ## GET FLAGS ##
 args = sys.argv[1:]
@@ -392,7 +395,7 @@ def social_new_post():
                 "description": description
             }
 
-        date = datetime.now(timezone(timedelta(hours=10))).strftime("%Y-%m-%d")
+        date = datetime.now(pytz.timezone('Australia/Sydney'))
         cursor.execute("INSERT INTO posts (user_id, title, date, content, likes, comments, type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user[0], title, date, json.dumps(data), '{}', '{}', type))
         return redirect(f'/feed')
 
