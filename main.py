@@ -336,7 +336,7 @@ def social_feed():
     all_posts = get_all_posts()
     if all_posts==None:
         all_posts = ()
-    return render_template('feed.html', user=user, posts=posts, all=all_posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Sydney'))
+    return render_template('feed.html', user=user, posts=posts, all=all_posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
 
 @app.route('/feed/new', methods=['GET', 'POST'])
 def social_new_post():
