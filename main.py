@@ -407,8 +407,18 @@ def social_post(post_id):
     Displays a specific post
     See social_feed for more info on posts
     '''
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
     
-    return main_not_built()
+    post = get_post(post_id)
+    if post == None:
+        return redirect('/feed')
+    
+    return render_template('post.html', user=user, post=post, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
 
 @app.route('/feed/<post_id>/edit', methods=['GET', 'POST', 'DELETE'])
 def social_edit_post(post_id):
