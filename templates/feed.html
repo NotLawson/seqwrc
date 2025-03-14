@@ -16,7 +16,7 @@
     <div class="post" id="{{ post[0] }}">
         {% set post_user = get_user_id(post[1]) %}
         <h3>{{ post[2] }}</h3>
-        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].strftime("%d/%m/%Y %H:%M") }}</h4>
+        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
         {% if post[6]=="post" %}
         {% set content = post[4] %}
         <p>{{ content["content"] }}</p>
@@ -43,7 +43,7 @@
     <div class="post" id="{{ post[0] }}">
         {% set post_user = get_user_id(post[1]) %}
         <h3>{{ post[2] }}</h3>
-        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].strftime("%d/%m/%Y %H:%M") }}</h4>
+        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
         {% if post[7]=="post" %}
         {% set content = post[4] %}
         <p>{{ content["content"] }}</p>

@@ -336,7 +336,9 @@ def social_feed():
     all_posts = get_all_posts()
     if all_posts==None:
         all_posts = ()
-    return render_template('feed.html', user=user, posts=posts, all=all_posts, get_user_id=get_user_id, json=json, str=str)
+
+    datetime.now().
+    return render_template('feed.html', user=user, posts=posts, all=all_posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Sydney'))
 
 @app.route('/feed/new', methods=['GET', 'POST'])
 def social_new_post():
@@ -395,7 +397,7 @@ def social_new_post():
                 "description": description
             }
 
-        date = datetime.now(pytz.timezone('Australia/Sydney'))
+        date = datetime.now()
         cursor.execute("INSERT INTO posts (user_id, title, date, content, likes, comments, type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user[0], title, date, json.dumps(data), '{}', '{}', type))
         return redirect(f'/feed')
 
