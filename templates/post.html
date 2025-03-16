@@ -15,7 +15,13 @@
 
     {% elif post[7]=="run" %}
     {% set content = post[4] %}
-    <p>{{content["distance"]}}km | {{content["time"]}} | {{content["pace"]}}min/km</p>
+    <p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
+            <span>Distance<br>{{content["distance"]}}km</span>
+            <span>Time<br>{{content["time"]}}</span>
+            <span>Pace<br>{{content["pace"]}}min/km</span>
+        </div>
+    </p>
     <p>{{content["description"]}}</p>
 
     {% elif post[7]=="event" %}
