@@ -24,10 +24,10 @@
         {% elif post[7]=="run" %}
         {% set content = post[4] %}
         <p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
-                <span>Distance<br>{{content["distance"]}}km</span>
-                <span>Time<br>{{content["time"]}}</span>
-                <span>Pace<br>{{content["pace"]}}min/km</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;border-radius: 10px; border: 1px solid;padding:10px; background-color: rgb(226, 226, 226);">
+                <span>Distance<br><span style="font-size: x-large;">{{content["distance"]}}km</span></span>
+                <span>Time<br><span style="font-size: x-large;">{{content["time"]}}</span></span>
+                <span>Pace<br><span style="font-size: x-large;">{{content["pace"]}}min/km</span></span>
             </div>
         </p>
         <p>{{content["description"]}}</p>
@@ -57,10 +57,10 @@
         {% elif post[7]=="run" %}
         {% set content = post[4] %}
         <p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
-                <span>Distance<br>{{content["distance"]}}km</span>
-                <span>Time<br>{{content["time"]}}</span>
-                <span>Pace<br>{{content["pace"]}}min/km</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;border-radius: 10px; border: 1px solid;padding:10px; background-color: rgb(226, 226, 226);">
+                <span>Distance<br><span style="font-size: x-large;">{{content["distance"]}}km</span></span>
+                <span>Time<br><span style="font-size: x-large;">{{content["time"]}}</span></span>
+                <span>Pace<br><span style="font-size: x-large;">{{content["pace"]}}min/km</span></span>
             </div>
         </p>
         <p>{{content["description"]}}</p>
