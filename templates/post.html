@@ -7,6 +7,10 @@
 {% block content %}
 <div class="full">
     {% set post_user = get_user_id(post[1]) %}
+    {% if post_user[0]==user[0] %}
+    <a href="/feed/{{ post[0] }}/edit">Edit</a>
+    {% endif %}
+    
     <h1>{{ post[2] }}</h1>
     <h2><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h2>
     {% if post[7]=="post" %}

@@ -1,0 +1,64 @@
+{% extends "main.html" %}
+
+{% block imports %}
+<link rel="stylesheet" href="/static/new_post.css">
+<script defer src="/static/new_post.js"></script>
+{% endblock %}
+
+{% block content %}
+
+{% if post[7]=="post" %}
+<div class="full" id="post">
+    <h3>Post</h3>
+    <form method="post">
+        <input type="hidden" name="type" value="post">
+        <label for="title">Title</label><br>
+        <input type="text" name="title" placeholder="Title" value="{{ post[0] }}" required><br><br>
+        {% set content = post[4] %}
+        <textarea name="content" style="width: 50%; height: 300px;" placeholder="Content" required>content["description"]</textarea><br><br>
+        <input type="submit" value="Post">
+    </form>
+</div>
+{% elif post[7]=="run" %}
+<div class="full" id="run" hidden>
+    <h3>Run</h3>
+    <form method="post">
+        <input type="hidden" name="type" value="run">
+        <label for="title">Title</label><br>
+        <input type="text" name="title" placeholder="Title" value="{{ post[2] }}" required><br><br>
+
+        {% set content = post[4] %}
+        <label for="distance">Distance (km)</label><br>
+        <input type="number" name="distance" placeholder="Distance (km)" step="0.01" value="{{ content['distance'] }}" required><br>
+        <p>
+            {% set time = content['time'].split(":") %}
+            <label>Time</label><br>
+            <input type="number" name="hours" max=12 min=0 value="{{ time[0] }}" required>:<input type="number" name="minutes" max=59 min=0 value="{{ time[1] }}" required>:<input type="number" name="seconds" max=59 min=0 value="{{ time[2] }}" required>
+        </p><br>
+        <label for="description">Description</label><br>
+        <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required>content["description"]</textarea><br><br>
+        <input type="submit" value="Post">
+    </form>
+</div>
+{% elif post[7]=="event" %}
+<div class="full" id="event" hidden>
+    <h3>Event</h3>
+    <form method="post">
+        <input type="hidden" name="type" value="event">
+        <label for="title">Title</label><br>
+        <input type="text" name="title" placeholder="Title" value="{{ post[2] }}" required><br><br>
+        
+        {% set content = post[4] %}
+        <label for="date">Date</label><br>
+        <input type="date" name="date" value="{{ content['date'] }}" required><br><br>
+
+        <label for="Location">Location</label><br>
+        <input type="text" name="location" placeholder="Location" value="{{ content['location'] }}" required><br><br>
+
+        <label for="description">Description</label><br>
+        <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required>content["description"]</textarea><br><br>
+        <input type="submit" value="Post">
+    </form>
+</div>
+{% endif %}
+{% endblock %}

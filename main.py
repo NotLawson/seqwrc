@@ -427,7 +427,75 @@ def social_edit_post(post_id):
     Also deletes a post
     See social_feed for more info on posts
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    post = get_post(post_id)
+
+    if user[0]!=post[1]:
+        return redirect("/")
+    
+    if request.method == "DELETE":
+        if user[0]==post[1]:
+            cursor.execute(f"DELETE FROM posts WHERE id = {post_id}")
+            return "done"
+        else:
+            return "not allowed"
+    elif request.method == "POST":
+        type = request.form['type']
+        if type=="post":
+            title = request.form['title']
+            content = request.form['content']
+            data = {
+                "content":content
+            }
+            cursor.execute(f"UPDATE posts SET title = '{title}', content = '{json.dumps(data)}' WHERE id = {post_id}")
+        elif type=="run":
+            title = request.form['title']
+            distance = request.form['distance']
+            hours = request.form['hours']
+            minutes = request.form['minutes']
+            seconds = request.form['seconds']
+            hours_in_mins = int(hours)*60
+            mins_in_seconds = (int(minutes)+hours_in_mins)*60
+            time = mins_in_seconds + int(seconds)
+            pace_in_seconds = int(time/float(distance))
+            pace_in_mins = str(int(pace_in_seconds/60)).split(".")
+            pace_in_mins[0] = int(pace_in_mins[0])
+            if len(pace_in_mins) == 1:
+                pace_in_mins.append(0)
+            else:
+                pace_in_mins[1] = 60/int(pace_in_mins[1])
+            
+            pace = f'{pace_in_mins[0]}:{pace_in_mins[1]}'
+            time = f'{hours}:{minutes}:{seconds}'
+            description = request.form['description']
+            data = {
+                "distance": distance,
+                "time": time,
+                "pace": pace,
+                "description": description
+            }
+            cursor.execute(f"UPDATE posts SET title = '{title}', content = '{json.dumps(data)}' WHERE id = {post_id}")
+        elif type=="event":
+            title = request.form['title']
+            date = request.form['date']
+            location = request.form['location']
+            description = request.form['description']
+
+            data = {
+                "date": date,
+                "location": location,
+                "description": description
+            }
+            cursor.execute(f"UPDATE posts SET title = '{title}', content = '{json.dumps(data)}' WHERE id = {post_id}")
+        return redirect(f'/feed')
+
+    return render_template('edit_post.html', post=post, user=user)
+
 
 @app.route('/feed/<post_id>/like', methods=['GET', 'DELETE'])
 def social_like_post(post_id):
