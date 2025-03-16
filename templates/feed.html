@@ -28,7 +28,7 @@
 
         {% elif post[7]=="event" %}
         {% set content = post[4] %}
-        <p>{{content["date"]}} | {{content["time"]}}</p>
+        <p>{{content["date"]}} | {{content["location"]}}</p>
         <p>{{content["description"]}}</p>
                 
         {% else %}
@@ -55,7 +55,7 @@
 
         {% elif post[7]=="event" %}
         {% set content = post[4] %}
-        <p>{{content["date"]}} | {{content["time"]}}</p>
+        <p>{{content["date"]}} | {{content["location"]}}</p>
         <p>{{content["description"]}}</p>
         
         {% else %}

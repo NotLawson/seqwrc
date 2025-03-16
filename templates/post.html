@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="full">
     {% set post_user = get_user_id(post[1]) %}
     <h1>{{ post[2] }}</h1>
     <h2><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h2>
@@ -19,11 +20,12 @@
 
     {% elif post[7]=="event" %}
     {% set content = post[4] %}
-    <p>{{content["date"]}} | {{content["time"]}}</p>
+    <p>{{content["date"]}} | {{content["location"]}}</p>
     <p>{{content["description"]}}</p>
     
     {% else %}
     <p>Error: Post type unknown: {{ post[7] }}</p>
     <p>{{ post[3] }}</p>
     {% endif %}
+</div>
 {% endblock %}
