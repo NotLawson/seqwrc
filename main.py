@@ -458,16 +458,16 @@ def social_edit_post(post_id):
             distance = request.form['distance']
             minutes = request.form['minutes']
             seconds = request.form['seconds']
-            app.logger.info("Minutes:", minutes)
-            app.logger.info("Seconds:", seconds)
+            app.logger.info("Minutes: "+minutes)
+            app.logger.info("Seconds: "+seconds)
             mins_in_seconds = (int(minutes))*60
-            app.logger.info("Minutes in seconds", mins_in_seconds)
+            app.logger.info("Minutes in seconds: "+mins_in_seconds)
             time = mins_in_seconds + int(seconds)
             app.logger.info("Total Time", time)
             pace_in_seconds = int(time/float(distance))
-            app.logger.info("Pace in seconds", pace_in_seconds)
+            app.logger.info("Pace in seconds: "+pace_in_seconds)
             pace_in_mins = str(float(pace_in_seconds/60)).split(".")
-            app.logger.info("Pace in mins as decimal list", pace_in_mins)
+            app.logger.info("Pace in mins as decimal list: "+pace_in_mins)
 
             if len(pace_in_mins) == 1:
                 app.logger.info("One item in list")
@@ -475,10 +475,10 @@ def social_edit_post(post_id):
             else:
                 app.logger.info("Two items in list")
                 pace_in_mins[1] = str(int(60*float("0."+pace_in_mins[1])))
-                app.logger.info("seconds:", pace_in_mins[1])
+                app.logger.info("seconds: "+pace_in_mins[1])
             
             pace = f'{pace_in_mins[0]}:{pace_in_mins[1]}'
-            app.logger.info("end pace:", pace)
+            app.logger.info("end pace: "+pace)
             time = f'{minutes}:{seconds}'
             description = request.form['description']
             data = {
