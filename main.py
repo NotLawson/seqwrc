@@ -456,22 +456,20 @@ def social_edit_post(post_id):
         elif type=="run":
             title = request.form['title']
             distance = request.form['distance']
-            hours = request.form['hours']
             minutes = request.form['minutes']
             seconds = request.form['seconds']
-            hours_in_mins = int(hours)*60
-            mins_in_seconds = (int(minutes)+hours_in_mins)*60
+            mins_in_seconds = (int(minutes))*60
             time = mins_in_seconds + int(seconds)
             pace_in_seconds = int(time/float(distance))
             pace_in_mins = str(float(pace_in_seconds/60)).split(".")
-            pace_in_mins[0] = int(pace_in_mins[0])
+            
             if len(pace_in_mins) == 1:
-                pace_in_mins.append(0)
+                pace_in_mins.append("00")
             else:
                 pace_in_mins[1] = str(int(60*float("0."+pace_in_mins[1])))
             
             pace = f'{pace_in_mins[0]}:{pace_in_mins[1]}'
-            time = f'{hours}:{minutes}:{seconds}'
+            time = f'{minutes}:{seconds}'
             description = request.form['description']
             data = {
                 "distance": distance,
