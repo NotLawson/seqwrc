@@ -463,12 +463,12 @@ def social_edit_post(post_id):
             mins_in_seconds = (int(minutes)+hours_in_mins)*60
             time = mins_in_seconds + int(seconds)
             pace_in_seconds = int(time/float(distance))
-            pace_in_mins = str(int(pace_in_seconds/60)).split(".")
+            pace_in_mins = str(float(pace_in_seconds/60)).split(".")
             pace_in_mins[0] = int(pace_in_mins[0])
             if len(pace_in_mins) == 1:
                 pace_in_mins.append(0)
             else:
-                pace_in_mins[1] = 60/int(pace_in_mins[1])
+                pace_in_mins[1] = str(int(60*float("0."+pace_in_mins[1])))
             
             pace = f'{pace_in_mins[0]}:{pace_in_mins[1]}'
             time = f'{hours}:{minutes}:{seconds}'
