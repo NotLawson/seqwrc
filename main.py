@@ -727,7 +727,7 @@ def joe_shoes():
     shoes = cursor.fetchall()
     return render_template("joe_shoes.html", user=user, shoes=shoes, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
     
-@app.route('/joe/shoes/new', methods=['GET', 'POST'])
+@app.route('/joe/shoe/new', methods=['GET', 'POST'])
 def joe_new_shoe():
     id = auth(request)
     if id == False:
@@ -744,7 +744,7 @@ def joe_new_shoe():
         review = request.form['review']
         date = datetime.now()
         tags = request.form.getlist('tags')
-        cursor.execute("INSERT INTO shoes (brand, model, review, date, tags) VALUES (%s, %s, %s, %s, %s)", (brand, model, review, date, tags))
+        cursor.execute("INSERT INTO shoes (brand, model, review, tags) VALUES (%s, %s, %s, %s)", (brand, model, review, tags))
         app.logger.info(f"New shoe added to database by Joe")
         return redirect('/joe/shoes')
     
@@ -787,7 +787,7 @@ def joe_shoes_brand(brand):
 
     return render_template("joe_shoes_by_tag.html", user=user, shoes=shoes, brand=brand)
 
-@app.route('/joe/shoes/<shoe_id>/edit', methods=['GET', 'POST', 'DELETE'])
+@app.route('/joe/shoe/<shoe_id>/edit', methods=['GET', 'POST', 'DELETE'])
 def joe_edit_shoe(shoe_id):
     '''
     Edits a shoe
