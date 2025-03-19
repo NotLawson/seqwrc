@@ -131,7 +131,13 @@ def get_following_posts(username):
     for user in following:
         cursor.execute(f"SELECT id FROM users WHERE username = '{user}'")
         following_ids.append(cursor.fetchone()[0])
-    following_ids = str(tuple(following_ids)).rstrip(",")+")"
+    if len(following_ids)==1:
+        following_ids = str(tuple(following_ids)).rstrip(",")+")"
+    elif len(following_ids)==0:
+        return None
+    else:
+        following_ids = str(tuple(following_ids))
+    
 
     cursor.execute(f'''
           SELECT * 
