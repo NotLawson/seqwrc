@@ -805,6 +805,7 @@ def joe_edit_shoe(shoe_id):
     
     shoe = cursor.execute(f"SELECT * FROM shoes WHERE id = {shoe_id}")
     if shoe == None:
+        app.logger.info(f"Shoe {shoe_id} not found")
         return redirect('/joe/shoes')
     
     if request.method == "DELETE":
@@ -817,6 +818,7 @@ def joe_edit_shoe(shoe_id):
         price = request.form['price']
         tags = request.form.getlist('tags')
         cursor.execute(f"UPDATE shoes SET brand = '{brand}', model = '{model}', review = '{review}', price = %s, tags = %s WHERE id = {shoe_id}", (price,tags,))
+        app.logger.info(f"Shoe {shoe_id} edited")
         return redirect(f'/joe/shoes/{shoe_id}')
 
     return render_template("joe_edit_shoe.html", user=user, shoe=shoe)
@@ -836,6 +838,7 @@ def joe_shoe(shoe_id):
     
     shoe = cursor.execute(f"SELECT * FROM shoes WHERE id = {shoe_id}")
     if shoe == None:
+        app.logger.info(f"Shoe {shoe_id} not found")
         return redirect('/joe/shoes')
     
     return render_template("joe_shoe.html", user=user, shoe=shoe)

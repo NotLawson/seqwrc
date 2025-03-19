@@ -14,7 +14,7 @@
     <h1>Welcome to Joe's shoes</h1>
 </div>
 
-<div class="l">
+<div class="l" style="margin-right: 10px;">
     <h2>Posts</h2>
     {% for post in posts %}
     <div class="post" id="{{ post[0] }}">
@@ -54,7 +54,7 @@
     {% endfor %}
     <a href="/joe/posts">All posts</a>
 </div>
-<div class="r">
+<div class="r" style="margin-left: 10px;">
     <h2>Shoes</h2>
     {% for shoe in shoes %}
     <div class="shoe">
