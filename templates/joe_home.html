@@ -1,9 +1,73 @@
 {% extends "main.html" %}
 
 {% block imports %}
+<link rel="stylesheet" href="/static/shoes.css">
+<link rel="stylesheet" href="/static/feed.css">
+
+<!--Icons-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=description,event,location_on,pace,route,sprint,timer" />
 
 {% endblock %}
 
 {% block content %}
+<div class="full">
+    <h1>Welcome to Joe's shoes</h1>
+</div>
 
+<div class="l">
+    <h2>Posts</h2>
+    {% for post in posts %}
+    <div class="post" id="{{ post[0] }}">
+        {% set post_user = get_user_id(post[1]) %}
+
+        {% if post[7]=="post" %}
+        <h3><span class="material-symbols-outlined">description</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
+        <h4>{{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+
+        {% elif post[7]=="run" %}
+        {% set content = post[4] %}
+        <h3><span class="material-symbols-outlined">sprint</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
+        <h4>{{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+
+        <p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;border-radius: 10px; border: 1px solid;padding:10px; background-color: rgb(226, 226, 226);">
+                <span><span class="material-symbols-outlined">route</span> Distance<br><span style="font-size: x-large;">{{content["distance"]}}km</span></span>
+                <span><span class="material-symbols-outlined">timer</span> Time<br><span style="font-size: x-large;">{{content["time"]}}</span></span>
+                <span><span class="material-symbols-outlined">pace</span> Pace<br><span style="font-size: x-large;">{{content["pace"]}}min/km</span></span>
+            </div>
+        </p>
+
+        {% elif post[7]=="event" %}
+        <h3><span class="material-symbols-outlined">event</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
+        <h4>{{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+
+
+        {% set content = post[4] %}
+        <p><span class="material-symbols-outlined">event</span> {{content["date"]}}</p>
+        <p><span class="material-symbols-outlined">location_on</span> {{content["location"]}}</p>
+                
+        {% else %}
+        <p>Error: Post type unknown: {{ post[7] }}</p>
+        <p>{{ post[3] }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <a href="/joes/posts">All posts</a>
+</div>
+<div class="r">
+    <h2>Shoes</h2>
+    {% for shoe in shoes %}
+    <div class="shoe">
+    <h3><a href='/joe/shoe/{{ shoe[0] }}'>{{ shoe[1] }} {{ shoe[2] }}</a></h3>
+    <p>Brand: {{ shoe[1] }}</p>
+    <p>Price: ${{ shoe[5] }}</p>
+    <p>Tags:  
+        {% for tag in shoe[4] %}
+        <input type="button" class="tag" onclick="window.location.href='/joe/tag/{{ tag }}'" value="{{ tag }}">  
+        {% endfor %}
+    </p>
+    </div>
+    {% endfor %}
+    <a href="/joes/shoes">All shoes</a>
+</div>
 {% endblock %}

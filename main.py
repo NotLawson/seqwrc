@@ -684,7 +684,21 @@ def joe_index():
     This page will display the latest blog post and the latest shoe review, aswell as links to each subpage
     See joe_shoes and joe_blog for more info on each part
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    cursor.execute("SELECT * FROM shoes LIMIT 3")
+    shoes = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM posts WHERE username = 'joe' ORDER BY date DESC LIMIT 3")
+    posts = cursor.fetchall()
+    
+    return render_template("joe_home.html", user=user, shoes=shoes, posts=posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
+
 @app.route('/joe/shoes')
 def joe_shoes():
     '''
@@ -699,49 +713,147 @@ def joe_shoes():
 
     This page will display all shoes in the database, as well as a search and filtering feature
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    cursor.execute("SELECT * FROM shoes")
+    shoes = cursor.fetchall()
+    return render_template("joe_shoes.html", user=user, shoes=shoes, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
+    
+@app.route('/joe/shoes/new', methods=['GET', 'POST'])
+def joe_new_shoe():
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    if user[1]!="joe":
+        return redirect('/')
+    
+    if request.method == "POST":
+        brand = request.form['brand']
+        model = request.form['model']
+        review = request.form['review']
+        date = datetime.now()
+        tags = request.form.getlist('tags')
+        cursor.execute("INSERT INTO shoes (brand, model, review, date, tags) VALUES (%s, %s, %s, %s, %s)", (brand, model, review, date, tags))
+        app.logger.info(f"New shoe added to database by Joe")
+        return redirect('/joe/shoes')
+    
+    return render_template("joe_new_shoe.html", user=user)
 
-@app.route('/joe/shoes/<shoe_id>')
+
+@app.route('/joe/shoes/tag/<tag>')
+def joe_shoes_tag(tag):
+    '''
+    Displays all shoes with a specific tag
+    See joe_shoes for more info on shoes
+    '''
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    cursor.execute(f"SELECT * FROM shoes WHERE tags contains %s", (tag,))
+    shoes = cursor.fetchall()
+
+    return render_template("joe_shoes_by_tag.html", user=user, shoes=shoes, tag=tag)
+
+@app.route('/joe/shoes/brand/<brand>')
+def joe_shoes_brand(brand):
+    '''
+    Displays all shoes with a specific brand
+    See joe_shoes for more info on shoes
+    '''
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    cursor.execute(f"SELECT * FROM shoes WHERE brand = %s", (brand,))
+    shoes = cursor.fetchall()
+
+    return render_template("joe_shoes_by_tag.html", user=user, shoes=shoes, brand=brand)
+
+@app.route('/joe/shoes/<shoe_id>/edit', methods=['GET', 'POST', 'DELETE'])
+def joe_edit_shoe(shoe_id):
+    '''
+    Edits a shoe
+    Also deletes a shoe
+    See joe_shoes for more info on shoes
+    '''
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    if user[1]!="joe":
+        return redirect('/')
+    
+    shoe = cursor.execute(f"SELECT * FROM shoes WHERE id = {shoe_id}")
+    if shoe == None:
+        return redirect('/joe/shoes')
+    
+    if request.method == "DELETE":
+        cursor.execute(f"DELETE FROM shoes WHERE id = {shoe_id}")
+        return "done"
+    elif request.method == "POST":
+        brand = request.form['brand']
+        model = request.form['model']
+        review = request.form['review']
+        tags = request.form.getlist('tags')
+        cursor.execute(f"UPDATE shoes SET brand = '{brand}', model = '{model}', review = '{review}', tags = %s WHERE id = {shoe_id}", (tags,))
+        return redirect(f'/joe/shoes/{shoe_id}')
+
+    return render_template("joe_edit_shoe.html", user=user, shoe=shoe)
+
+@app.route('/joe/shoe/<shoe_id>')
 def joe_shoe(shoe_id):
     '''
     Displays a specific shoe
     See joe_shoes for more info on shoes
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    shoe = cursor.execute(f"SELECT * FROM shoes WHERE id = {shoe_id}")
+    if shoe == None:
+        return redirect('/joe/shoes')
+    
+    return render_template("joe_shoe.html", user=user, shoe=shoe)
 
-@app.route('/joe/blog')
-def joe_blog():
+@app.route('/joe/posts')
+def joe_posts():
     '''
     Blog
-    Joe's blog contains the following metadata:
-     - Title: The title of the blog post
-     - Date: The date the blog post was posted
-     - Content: The content of the blog post. This can contain Markdown, but no HTML. This may contain images, 
-       which will be stored in a static /static/joe/blog/<post_id>/ folder and linked via Markdown
-     - Comments: A list of comments on the blog post
-     - Tags: A list of tags for the blog post. This can be used to filter posts. Some tags may include: tips, experience, etc.
+    Joe's blog will be posts from the feed, but filtered just from him.
 
     This page will display all blog posts in the database, as well as a search and filtering feature
     '''
-    return main_not_built()
-
-@app.route('/joe/blog/<post_id>')
-def joe_post(post_id):
-    '''
-    Displays a specific post
-    See joe_blog for more info on posts
-    '''
-    return main_not_built()
-
-@app.route('/joe/blog/<post_id>/comment', methods=['POST', 'DELETE'])
-def joe_comment_post(post_id):
-    '''
-    (endpoint) Comments on a post
-    Also edits a comment
-    Also deletes a comment
-    See joe_blog for more info on posts
-    '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    cursor.execute("SELECT * FROM posts WHERE username = 'joe'")
+    posts = cursor.fetchall()
+    return render_template("joe_posts.html", user=user, posts=posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
 
 ## ADMIN ##
 @app.route('/admin', methods=['GET', 'POST'])
@@ -799,74 +911,6 @@ def admin_edit_post(post_id):
     Edits a post on behalf of the user
     Also deletes a post
     See social_feed for more info on posts
-    '''
-    return main_not_built()
-
-@app.route('/admin/joe')
-def admin_joe():
-    '''
-    Joe's Shoes Dashboard
-    Link to each subpage, and show engagement stats
-    See joe_shoes and joe_blog for more info on each part
-    '''
-    return main_not_built()
-
-@app.route('/admin/joe/shoes')
-def admin_joe_shoes():
-    '''
-    Shows all shoes in the database
-    See joe_shoes for more info on shoes
-    '''
-    return main_not_built()
-
-@app.route('/admin/joe/shoes/new', methods=['GET', 'POST'])
-def admin_joe_new_shoe():
-    '''
-    Creates a new shoe
-    See joe_shoes for more info on shoes
-    '''
-    return main_not_built()
-
-@app.route('/admin/joe/shoes/<shoe_id>', methods=['GET', 'POST', 'DELETE'])
-def admin_joe_shoe(shoe_id):
-    '''
-    Displays a specific shoe
-    See joe_shoes for more info on shoes
-    Also edits a shoe
-    Also deletes a shoe
-    '''
-    return main_not_built()
-
-@app.route('/admin/joe/blog')
-def admin_joe_blog():
-    '''
-    Shows all blog posts in the database
-    See joe_blog for more info on posts
-    '''
-    return main_not_built()
-
-@app.route('/admin/joe/blog/new', methods=['GET', 'POST'])
-def admin_joe_new_post():
-    '''
-    Creates a new post
-    See joe_blog for more info on posts
-    '''
-    return main_not_built()
-
-@app.route('/admin/joe/blog/<post_id>', methods=['GET', 'POST', 'DELETE'])
-def admin_joe_post(post_id):
-    ''''
-    Displays a specific post'
-    See joe_blog for more info on posts
-    '''
-    return main_not_built()
-
-@app.route('/admin/joe/blog/<post_id>/edit', methods=['GET', 'POST', 'DELETE'])
-def admin_joe_edit_post(post_id):
-    '''
-    Edits a post
-    Also deletes a post
-    See joe_blog for more info on posts
     '''
     return main_not_built()
 

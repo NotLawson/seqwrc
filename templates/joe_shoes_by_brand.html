@@ -6,13 +6,12 @@
 
 {% block content %}
 <div class="full">
-    <h1>Shoes</h1>
+    <h1>Shoes with the brand {{ brand }}</h1>
     {% for shoe in shoes %}
     <div class="shoe">
     <h3><a href='/joe/shoe/{{ shoe[0] }}'>{{ shoe[1] }} {{ shoe[2] }}</a></h3>
     <p>Brand: {{ shoe[1] }}</p>
     <p>Price: ${{ shoe[5] }}</p>
-    <pre>Review:\n{{ shoe[3] }}</pre>
     <p>Tags:  
         {% for tag in shoe[4] %}
         <input type="button" class="tag" onclick="window.location.href='/joe/tag/{{ tag }}'" value="{{ tag }}">  

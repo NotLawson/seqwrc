@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+
+{% block imports %}
+<script src="/static/new_shoe.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="full">
+    <h1>New Shoe</h1>
+    <form method="post">
+        <label for="brand">Brand</label><br>
+        <input type="text" name="brand" placeholder="Brand" required><br><br>
+        <label for="model">Model</label><br>
+        <input type="text" name="model" placeholder="Model" required><br><br>
+        <label for="price">Price</label><br>
+        $<input type="number" name="price" placeholder="Price" step="0.01" required><br><br>
+        <label for="review">Review</label><br>
+        <textarea name="review" style="width: 50%; height: 200px;" placeholder="Review" required></textarea><br><br>
+        <label for="tag">Tags</label><br>
+        <div id="tags">
+            <input type="text" name="tag" placeholder="Tag" id="tag" required><br>
+        </div><br><br>
+        <input type="button" value="Add Tag" onclick="add_tag()"><br><br>
+        <input type="submit" value="Post">
+    </form>
+</div>
+{% endblock %}
