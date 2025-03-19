@@ -38,8 +38,6 @@
     <p>Error: Post type unknown: {{ post[7] }}</p>
     <pre clas="content">{{ post[3] }}</pre>
     {% endif %}
-    
-    <br>
     <p>{{ post[5]|length }} likes</p>
 
     {% if str(user[0]) in post[5] %}
