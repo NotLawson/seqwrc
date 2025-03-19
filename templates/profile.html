@@ -15,6 +15,11 @@
     <h1>{{ profile[4] }} ({{ profile[1] }})</h1>
     <h2>Bio:</h2>
     <p>{{ profile[5] }}</p>
+    {% if str(profile[0]) in user[7] %}
+    <input type="button" value="Unfollow" onclick="fetch(window.location.href+'/follow', {method: 'DELETE'}).then(response => window.location.reload());">
+    {% else %}
+    <input type="button" value="Follow" onclick="fetch(window.location.href+'/follow', {method: 'GET'}).then(response => window.location.reload());">
+    {% endif %}
 </div>
 <div class="l">
     <h2>Followers</h2>
@@ -22,11 +27,17 @@
     {% set user = get_user_id(user_id) %}
     <a href="/profiles/{{ user[1] }}">{{ user[4] }}</a><br>
     {% endfor %}
+    {% if len(user[6]) == 0 %}
+    <p>No followers</p>
+    {% endif %}
 </div>
 <div class="r">
     <h2>Following</h2>
     {% for user_id in profile[7] %}
     {% set user = get_user_id(user_id) %}
+    {% if len(profile[7]) == 0 %}
+    <p>No following</p>
+    {% endif %}
 </div>
 <div class="full">
     <h2>Posts</h2>
