@@ -527,12 +527,14 @@ def social_like_post(post_id):
     if request.method == "DELETE":
         likes = post[5]
         likes.remove(user[0])
-        cursor.execute(f"UPDATE posts SET likes = '{likes}' WHERE id = {post_id}")
+        cursor.execute(f"UPDATE posts SET likes = %s WHERE id = {post_id}", (likes,))
+        app.logger.info(f"User {user[1]} unliked post {post_id}")
         return "done"
 
     likes = post[5]
     likes.append(user[0])
-    cursor.execute(f"UPDATE posts SET likes = '{likes}' WHERE id = {post_id}")
+    cursor.execute(f"UPDATE posts SET likes = %s WHERE id = {post_id}", (likes,))
+    app.logger.info(f"User {user[1]} liked post {post_id}")
     return "done"
 
 @app.route('/feed/<post_id>/comment', methods=['POST', 'DELETE'])
