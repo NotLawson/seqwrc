@@ -68,28 +68,38 @@
     {% for post in all %}
     <div class="post" id="{{ post[0] }}">
         {% set post_user = get_user_id(post[1]) %}
-        <h3><a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
+
+        {% if post[6]=="post" %}
+        <h3><span class="material-symbols-outlined">description</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
         <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
-        {% if post[7]=="post" %}
+
         {% set content = post[4] %}
         <p>{{ content["content"] }}</p>
 
         {% elif post[7]=="run" %}
         {% set content = post[4] %}
+        <h3><span class="material-symbols-outlined">sprint</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
+        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+
         <p>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;border-radius: 10px; border: 1px solid;padding:10px; background-color: rgb(226, 226, 226);">
-                <span>Distance<br><span style="font-size: x-large;">{{content["distance"]}}km</span></span>
-                <span>Time<br><span style="font-size: x-large;">{{content["time"]}}</span></span>
-                <span>Pace<br><span style="font-size: x-large;">{{content["pace"]}}min/km</span></span>
+                <span><span class="material-symbols-outlined">route</span> Distance<br><span style="font-size: x-large;">{{content["distance"]}}km</span></span>
+                <span><span class="material-symbols-outlined">timer</span> Time<br><span style="font-size: x-large;">{{content["time"]}}</span></span>
+                <span><span class="material-symbols-outlined">pace</span> Pace<br><span style="font-size: x-large;">{{content["pace"]}}min/km</span></span>
             </div>
         </p>
         <p>{{content["description"]}}</p>
 
         {% elif post[7]=="event" %}
+        <h3><span class="material-symbols-outlined">event</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
+        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+
+
         {% set content = post[4] %}
-        <p>{{content["date"]}} | {{content["location"]}}</p>
+        <p><span class="material-symbols-outlined">event</span> {{content["date"]}}</p>
+        <p><span class="material-symbols-outlined">location_on</span> {{content["location"]}}</p>
         <p>{{content["description"]}}</p>
-        
+                
         {% else %}
         <p>Error: Post type unknown: {{ post[7] }}</p>
         <p>{{ post[3] }}</p>
