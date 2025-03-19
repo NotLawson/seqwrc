@@ -61,5 +61,6 @@
     </form>
 </div>
 {% endif %}
-<input type="button" value="Delete" onclick="fetch(window.location.href, {method: 'DELETE'}).then(response => window.location.href = '/');">
+<br>
+<input type="button" style="color: red" value="Delete" onclick="fetch(window.location.href, {method: 'DELETE'}).then(response => window.location.href = '/');">
 {% endblock %}
