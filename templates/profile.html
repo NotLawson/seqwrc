@@ -15,7 +15,7 @@
     <h1>{{ profile[4] }} ({{ profile[1] }})</h1>
     <h2>Bio:</h2>
     <p>{{ profile[5] }}</p>
-    {% if str(profile[0]) in user[7] %}
+    {% if str(profile[1]) in user[7] %}
     <input type="button" value="Unfollow" onclick="fetch(window.location.href+'/follow', {method: 'DELETE'}).then(response => window.location.reload());">
     {% else %}
     <input type="button" value="Follow" onclick="fetch(window.location.href+'/follow', {method: 'GET'}).then(response => window.location.reload());">
