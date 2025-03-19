@@ -1,0 +1,25 @@
+{% extends "main.html" %}
+
+{% block imports %}
+
+{% endblock %}
+
+{% block content %}
+<div class="full">
+    <h1>Profiles</h1>
+    <h2>Search</h2>
+    <input type="text" id="search"><input type="button" value="Search" onclick="window.location.href = '/profiles/'+document.getElementById('search').value">
+
+    <h2>Following</h2>
+    {% for user_id in user[7]  %}
+    {% set user = get_user_id(user_id) %}
+    <a href="/profiles/{{ user[1] }}">{{ user[4] }}</a><br>
+    {% endfor %}
+
+    <h2>Followers</h2>
+    {% for user_id in user[6]  %}
+    {% set user = get_user_id(user_id) %}
+    <a href="/profiles/{{ user[1] }}">{{ user[4] }}</a><br>
+    {% endfor %}
+</div>
+{% endblock %}

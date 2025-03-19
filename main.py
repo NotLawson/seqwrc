@@ -541,6 +541,7 @@ def social_like_post(post_id):
 def social_comment_post(post_id):
     '''
     (endpoint) Comments on a post
+    # note: most likely will not be implemented #
     Also deletes a comment
     See social_feed for more info on posts
     '''
@@ -554,7 +555,6 @@ def social_all_profiles():
      - Username: The username of the user
      - Name: The name of the user
      - Bio: The bio of the user. This can contain Markdown, but no HTML. This cannot contain images or videos
-     - Profile Picture: The profile picture of the user. This will be stored in a static user folder
      - Followers: A list of users who follow the user
      - Following: A list of users who the user follows
      - Posts: A list of posts by the user. This includes Runs and Events
@@ -569,7 +569,14 @@ def social_all_profiles():
 
     This page will display diplay a search bar, current followers/following, recomended users
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    return render_template('profiles_home.html', user=user, get_user_id=get_user_id)
 
 @app.route('/profile/<username>', methods=['GET', 'POST'])
 def social_profile(username):
@@ -577,6 +584,21 @@ def social_profile(username):
     Displays a specific profile
     See social_all_profiles for more info on profiles
     '''
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    profile = get_user(username)
+    if profile == None:
+        return render_template("profile_not_found.html")
+    
+    posts = get_posts(profile[0])
+
+    return render_template('profile.html', user=user, profile=profile, posts=posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
+
     return main_not_built()
 
 @app.route('/profile/<username>/follow', methods=['GET', 'DELETE'])
