@@ -12,6 +12,10 @@ article {
     grid-template-columns: 1fr 1fr;
 }
 
+pre {
+    font-family: Arial, sans-serif;
+}
+
 .full {
     grid-column-start: 1;
     grid-column-end: 3;
