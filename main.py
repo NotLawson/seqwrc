@@ -836,10 +836,10 @@ def joe_shoe(shoe_id):
     if user == None:
         return redirect('/login?next=/feed')
     
-    shoe = cursor.execute(f"SELECT * FROM shoes WHERE id = {shoe_id}")
+    cursor.execute(f"SELECT * FROM shoes WHERE id = {shoe_id}")
+    shoe = cursor.fetchone()
     if shoe == None:
         app.logger.info(f"Shoe {shoe_id} not found")
-        app.logger.info("Request was: "+f"SELECT * FROM shoes WHERE id = {shoe_id}")
         return redirect('/joe/shoes')
     
     return render_template("joe_shoe.html", user=user, shoe=shoe)
