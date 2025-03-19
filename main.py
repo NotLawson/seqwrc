@@ -694,7 +694,10 @@ def joe_index():
     cursor.execute("SELECT * FROM shoes LIMIT 3")
     shoes = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM posts WHERE username = 'joe' ORDER BY date DESC LIMIT 3")
+    cursor.execute("SELECT id FROM users WHERE username = 'joe'")
+    joe_id = cursor.fetchone()[0]
+
+    cursor.execute(f"SELECT * FROM posts WHERE username = {joe_id} ORDER BY date DESC LIMIT 3")
     posts = cursor.fetchall()
     
     return render_template("joe_home.html", user=user, shoes=shoes, posts=posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
