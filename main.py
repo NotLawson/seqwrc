@@ -526,13 +526,13 @@ def social_like_post(post_id):
     post = get_post(post_id)
     if request.method == "DELETE":
         likes = post[5]
-        likes.remove(user[0])
+        likes.remove(id)
         cursor.execute(f"UPDATE posts SET likes = %s WHERE id = {post_id}", (likes,))
         app.logger.info(f"User {user[1]} unliked post {post_id}")
         return "done"
 
     likes = post[5]
-    likes.append(user[0])
+    likes.append(id)
     cursor.execute(f"UPDATE posts SET likes = %s WHERE id = {post_id}", (likes,))
     app.logger.info(f"User {user[1]} liked post {post_id}")
     return "done"
