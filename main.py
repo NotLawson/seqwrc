@@ -743,7 +743,7 @@ def joe_new_shoe():
         model = request.form['model']
         review = request.form['review']
         price = request.form['price']
-        tags = request.form.getlist('tags')
+        tags = request.form.getlist('tag')
         cursor.execute("INSERT INTO shoes (brand, model, review, tags, price) VALUES (%s, %s, %s, %s, %s)", (brand, model, review, tags, price))
         app.logger.info(f"New shoe added to database by Joe")
         return redirect('/joe/shoes')
@@ -816,7 +816,7 @@ def joe_edit_shoe(shoe_id):
         model = request.form['model']
         review = request.form['review']
         price = request.form['price']
-        tags = request.form.getlist('tags')
+        tags = request.form.getlist('tag')
         cursor.execute(f"UPDATE shoes SET brand = '{brand}', model = '{model}', review = '{review}', price = %s, tags = %s WHERE id = {shoe_id}", (price,tags,))
         app.logger.info(f"Shoe {shoe_id} edited")
         return redirect(f'/joe/shoes/{shoe_id}')
