@@ -35,7 +35,7 @@
     <h2>Following</h2>
     {% for username in profile[7] %}
     {% set user = get_user(username) %}
-`    <a href="/profile/{{ user[1] }}">{{ user[4] }}</a><br>
+    <a href="/profile/{{ user[1] }}">{{ user[4] }}</a><br>
     {% endfor %}
 
     {% if len(profile[7]) == 0 %}
