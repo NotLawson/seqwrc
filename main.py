@@ -598,6 +598,9 @@ def social_profile(username):
     if user == None:
         return redirect('/login?next=/feed')
     
+    if username == user[1]:
+        return redirect('/profile/me')
+    
     profile = get_user(username)
     if profile == None:
         return render_template("profile_not_found.html")
@@ -629,13 +632,44 @@ def social_follow(username):
     cursor.execute(f"UPDATE users SET followers = array_append(followers, %s) WHERE username = %s", (user[1], username))
     return "done"
 
+@app.route('/profile/me')
+def social_my_profile():
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    username = user[1]
+    
+    profile = get_user(username)
+    if profile == None:
+        return render_template("profile_not_found.html")
+    
+    posts = get_posts(profile[0])
+
+    return render_template('profile.html', user=user, profile=profile, posts=posts, get_user_id=get_user_id, get_user=get_user, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'), len=len)
+
 @app.route('/profile/me/edit', methods=['GET', 'POST'])
 def social_edit_profile():
     '''
     Edits your profile
     See social_all_profiles for more info on profiles
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    if request.method == "POST":
+        bio = request.form['bio']
+        cursor.execute(f"UPDATE users SET bio = '{bio}' WHERE id = {user[0]}")
+        return redirect('/profile/me')
+    
+    return render_template('edit_profile.html', user=user)
 
 ## JOE'S SHOES ##
 @app.route('/joe')
