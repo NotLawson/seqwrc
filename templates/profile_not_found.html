@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+
+{% block imports %}
+
+{% endblock %}
+
+{% block content %}
+<div class="full">
+<h1>This profile wasn't found</h1>
+<h2>Search again</h2>
+<input type="text" id="search" placeholder="Search for a profile">
+<input type="button" id="search_button" value="Search" onclick="window.location.href='/profile/'+document.getElementById('search').value">
+</div>
+{% endblock %}
