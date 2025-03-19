@@ -517,7 +517,23 @@ def social_like_post(post_id):
     Also remove like from a post
     See social_feed for more info on posts
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    post = get_post(post_id)
+    if request.method == "DELETE":
+        likes = post[5]
+        likes.remove(user[0])
+        cursor.execute(f"UPDATE posts SET likes = '{likes}' WHERE id = {post_id}")
+        return "done"
+
+    likes = post[5]
+    likes.append(user[0])
+    cursor.execute(f"UPDATE posts SET likes = '{likes}' WHERE id = {post_id}")
+    return "done"
 
 @app.route('/feed/<post_id>/comment', methods=['POST', 'DELETE'])
 def social_comment_post(post_id):

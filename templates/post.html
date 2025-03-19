@@ -8,6 +8,7 @@
 <div class="full">
     {% set post_user = get_user_id(post[1]) %}
     {% if post_user[0]==user[0] %}
+    <br>
     <a href="/feed/{{ post[0] }}/edit">Edit</a>
     {% endif %}
     
@@ -36,6 +37,14 @@
     {% else %}
     <p>Error: Post type unknown: {{ post[7] }}</p>
     <p>{{ post[3] }}</p>
+    {% endif %}
+    
+    <br>
+    <p>{{ post[5]|length }} likes</p>
+    {% if user[0] in post[5] %}
+    <input type="button" value="Remove Like" onclick="fetch(window.location.href+'/like', {method: 'DELETE'}).then(response => window.location.reload());">
+    {% else %}
+    <input type="button" value="Like" onclick="fetch(window.location.href+'/like', {method: 'POST'}).then(response => window.location.reload());">
     {% endif %}
 </div>
 {% endblock %}
