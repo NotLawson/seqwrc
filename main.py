@@ -803,7 +803,8 @@ def joe_edit_shoe(shoe_id):
     if user[1]!="joe":
         return redirect('/')
     
-    shoe = cursor.execute(f"SELECT * FROM shoes WHERE id = {shoe_id}")
+    cursor.execute(f"SELECT * FROM shoes WHERE id = {shoe_id}")
+    shoe = cursor.fetchone()
     if shoe == None:
         app.logger.info(f"Shoe {shoe_id} not found")
         return redirect('/joe/shoes')
