@@ -854,7 +854,10 @@ def joe_posts():
     if user == None:
         return redirect('/login?next=/feed')
     
-    cursor.execute("SELECT * FROM posts WHERE username = 'joe'")
+    cursor.execute("SELECT id FROM users WHERE username = 'joe'")
+    joe_id = cursor.fetchone()[0]
+    
+    cursor.execute(f"SELECT * FROM posts WHERE user_id = {joe_id}")
     posts = cursor.fetchall()
     return render_template("joe_posts.html", user=user, posts=posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
 
