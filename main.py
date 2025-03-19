@@ -842,7 +842,7 @@ def joe_shoe(shoe_id):
         app.logger.info(f"Shoe {shoe_id} not found")
         return redirect('/joe/shoes')
     
-    return render_template("joe_shoe.html", user=user, shoe=shoe)
+    return render_template("joe_shoes.html", user=user, shoe=shoe)
 
 @app.route('/joe/posts')
 def joe_posts():
