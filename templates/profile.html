@@ -44,7 +44,7 @@
 </div>
 <div class="full">
     <h2>Posts</h2>
-    {% for post in all %}
+    {% for post in posts %}
     <div class="post" id="{{ post[0] }}">
         {% set post_user = get_user_id(post[1]) %}
 
