@@ -620,12 +620,12 @@ def social_follow(username):
         return redirect('/login?next=/feed')
     
     if request.method == "DELETE":
-        cursor.execute(f"UPDATE users SET following = array_remove(following, %s) WHERE username = %s", (user[1], username))
-        cursor.execute(f"UPDATE users SET followers = array_remove(followers, %s) WHERE username = %s", (username, user[1]))
+        cursor.execute(f"UPDATE users SET following = array_remove(following, %s) WHERE username = %s", (username, user[1]))
+        cursor.execute(f"UPDATE users SET followers = array_remove(followers, %s) WHERE username = %s", (user[1], username))
         return "done"
 
-    cursor.execute(f"UPDATE users SET following = array_append(following, %s) WHERE username = %s", (user[1], username))
-    cursor.execute(f"UPDATE users SET followers = array_append(followers, %s) WHERE username = %s", (username, user[1]))
+    cursor.execute(f"UPDATE users SET following = array_append(following, %s) WHERE username = %s", (username, user[1]))
+    cursor.execute(f"UPDATE users SET followers = array_append(followers, %s) WHERE username = %s", (user[1], username))
     return "done"
 
 @app.route('/profile/me/edit', methods=['GET', 'POST'])
