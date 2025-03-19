@@ -33,7 +33,7 @@
         <p>
             {% set time = content['time'].split(":") %}
             <label>Time</label><br>
-            <input type="number" name="hours" max=12 min=0 value="{{ time[0] }}" required>:<input type="number" name="minutes" max=59 min=0 value="{{ time[1] }}" required>:<input type="number" name="seconds" max=59 min=0 value="{{ time[2] }}" required>
+            <input type="number" name="minutes" max=59 min=0 value="{{ time[0] }}" required>:<input type="number" name="seconds" max=59 min=0 value="{{ time[1] }}" required>
         </p><br>
         <label for="description">Description</label><br>
         <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required>content["description"]</textarea><br><br>
@@ -61,4 +61,5 @@
     </form>
 </div>
 {% endif %}
+<input type="button" value="Delete" onclick="fetch(window.location.href, {method: 'DELETE'}).then(response => window.location.href = '/');">
 {% endblock %}
