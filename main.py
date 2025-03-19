@@ -13,8 +13,11 @@ class DiscordLogging():
     def write(self, message):
         self.stdout.write(message)
         self.discord(message)
+        
+    def flush(self):
+        self.stdout.flush()
 
-    def discord(message):
+    def discord(self, message):
         # discord webhook
         url = "https://discord.com/api/webhooks/1351708676557373531/-9AbumwU6qb3f3bN18QH9s7J1Rd9d8YR8aHM_sBQbaLfd5SmflFzNNrywk_nR7Z7X-F5"
         data = {
