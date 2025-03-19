@@ -27,7 +27,7 @@
     {% set user = get_user(username) %}
     <a href="/profile/{{ user[1] }}">{{ user[4] }}</a><br>
     {% endfor %}
-    {% if len(user[6]) == 0 %}
+    {% if len(profile[6]) == 0 %}
     <p>No followers</p>
     {% endif %}
 </div>
