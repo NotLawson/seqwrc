@@ -129,6 +129,12 @@ def get_all_posts():
 def get_following_posts(username):
     cursor.execute('SELECT following FROM users WHERE username = %s', (username,))
     following = cursor.fetchone()[0]
+
+    following_ids = []
+    for user in following:
+        cursor.execute(f"SELECT id FROM users WHERE username = '{user}'")
+        following_ids.append(cursor.fetchone()[0])
+
     cursor.execute('''
     SELECT sub.*
     FROM (SELECT * 
@@ -138,7 +144,7 @@ def get_following_posts(username):
           LIMIT 100
          ) sub
     ORDER BY date ASC;
-    ''', (following,))
+    ''', (following_ids,))
     return cursor.fetchall()
 
 
