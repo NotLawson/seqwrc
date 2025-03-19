@@ -582,7 +582,7 @@ def social_all_profiles():
     if user == None:
         return redirect('/login?next=/feed')
     
-    return render_template('profiles_home.html', user=user, get_user_id=get_user_id, len=len)
+    return render_template('profiles_home.html', user=user, get_user_id=get_user_id, get_user=get_user, len=len)
 
 @app.route('/profile/<username>', methods=['GET', 'POST'])
 def social_profile(username):
