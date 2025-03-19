@@ -11,18 +11,18 @@
     <input type="text" id="search"><input type="button" value="Search" onclick="window.location.href = '/profile/'+document.getElementById('search').value">
 
     <h2>Following</h2>
-    {% for user_id in user[7]  %}
-    {% set user = get_user_id(user_id) %}
-    <a href="/profiles/{{ user[1] }}">{{ user[4] }}</a><br>
+    {% for username in user[7]  %}
+    {% set user = get_user(username) %}
+    <a href="/profile/{{ user[1] }}">{{ user[4] }}</a><br>
     {% endfor %}
     {% if len(user[7]) == 0 %}
     <p>No following</p>
     {% endif %}
 
     <h2>Followers</h2>
-    {% for user_id in user[6]  %}
-    {% set user = get_user_id(user_id) %}
-    <a href="/profiles/{{ user[1] }}">{{ user[4] }}</a><br>
+    {% for username in user[6]  %}
+    {% set user = get_user(username) %}
+    <a href="/profile/{{ user[1] }}">{{ user[4] }}</a><br>
     {% endfor %}
     {% if len(user[6]) == 0 %}
     <p>No followers</p>
