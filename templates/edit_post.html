@@ -14,7 +14,7 @@
     <form method="post">
         <input type="hidden" name="type" value="post">
         <label for="title">Title</label><br>
-        <input type="text" name="title" placeholder="Title" value="{{ post[0] }}" required><br><br>
+        <input type="text" name="title" placeholder="Title" value="{{ post[2] }}" required><br><br>
         {% set content = post[4] %}
         <textarea name="content" style="width: 50%; height: 300px;" placeholder="Content" required>{{ content["content"] }}</textarea><br><br>
         <input type="submit" value="Post">
