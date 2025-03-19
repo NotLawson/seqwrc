@@ -4,8 +4,32 @@ import sys, os, time
 from datetime import datetime
 from datetime import timezone, timedelta
 import pytz
+import requests
+
+class DiscordLogging():
+    def __init__(self, stdout):
+        self.stdout = stdout
+
+    def write(self, message):
+        self.stdout.write(message)
+        self.discord(message)
+
+    def discord(message):
+        # discord webhook
+        url = "https://discord.com/api/webhooks/1351708676557373531/-9AbumwU6qb3f3bN18QH9s7J1Rd9d8YR8aHM_sBQbaLfd5SmflFzNNrywk_nR7Z7X-F5"
+        data = {
+            "content" : message,
+            "username" : "SEQWRC Status Bot"
+        }
+        result = requests.post(url, json = data)
+        try:
+            result.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            pass
 
 
+stdout = sys.stdout
+sys.stdout=DiscordLogging(stdout) # set up logging to discord
 
 ## GET FLAGS ##
 args = sys.argv[1:]
@@ -458,27 +482,27 @@ def social_edit_post(post_id):
             distance = request.form['distance']
             minutes = request.form['minutes']
             seconds = request.form['seconds']
-            app.logger.info("Minutes: "+minutes)
-            app.logger.info("Seconds: "+seconds)
+            DiscordLogging.discord("Minutes: "+minutes)
+            DiscordLogging.discord("Seconds: "+seconds)
             mins_in_seconds = (int(minutes))*60
-            app.logger.info("Minutes in seconds: "+mins_in_seconds)
+            DiscordLogging.discord("Minutes in seconds: "+mins_in_seconds)
             time = mins_in_seconds + int(seconds)
-            app.logger.info("Total Time", time)
+            DiscordLogging.discord("Total Time", time)
             pace_in_seconds = int(time/float(distance))
-            app.logger.info("Pace in seconds: "+pace_in_seconds)
+            DiscordLogging.discord("Pace in seconds: "+pace_in_seconds)
             pace_in_mins = str(float(pace_in_seconds/60)).split(".")
-            app.logger.info("Pace in mins as decimal list: "+pace_in_mins)
+            DiscordLogging.discord("Pace in mins as decimal list: "+pace_in_mins)
 
             if len(pace_in_mins) == 1:
-                app.logger.info("One item in list")
+                DiscordLogging.discord("One item in list")
                 pace_in_mins.append("00")
             else:
-                app.logger.info("Two items in list")
+                DiscordLogging.discord("Two items in list")
                 pace_in_mins[1] = str(int(60*float("0."+pace_in_mins[1])))
-                app.logger.info("seconds: "+pace_in_mins[1])
+                DiscordLogging.discord("seconds: "+pace_in_mins[1])
             
             pace = f'{pace_in_mins[0]}:{pace_in_mins[1]}'
-            app.logger.info("end pace: "+pace)
+            DiscordLogging.discord("end pace: "+pace)
             time = f'{minutes}:{seconds}'
             description = request.form['description']
             data = {
