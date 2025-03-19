@@ -35,6 +35,9 @@
     <h2>Following</h2>
     {% for user_id in profile[7] %}
     {% set user = get_user_id(user_id) %}
+`    <a href="/profiles/{{ user[1] }}">{{ user[4] }}</a><br>
+    {% endfor %}
+
     {% if len(profile[7]) == 0 %}
     <p>No following</p>
     {% endif %}
