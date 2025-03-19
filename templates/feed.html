@@ -22,12 +22,12 @@
 
         {% if post[7]=="post" %}
         <h3><span class="material-symbols-outlined">description</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
-        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+        <h4><a href="/profile/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
 
         {% elif post[7]=="run" %}
         {% set content = post[4] %}
         <h3><span class="material-symbols-outlined">sprint</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
-        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+        <h4><a href="/profile/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
 
         <p>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;border-radius: 10px; border: 1px solid;padding:10px; background-color: rgb(226, 226, 226);">
@@ -39,7 +39,7 @@
 
         {% elif post[7]=="event" %}
         <h3><span class="material-symbols-outlined">event</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
-        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+        <h4><a href="/profile/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
 
 
         {% set content = post[4] %}
@@ -60,12 +60,12 @@
 
         {% if post[7]=="post" %}
         <h3><span class="material-symbols-outlined">description</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
-        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+        <h4><a href="/profile/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
 
         {% elif post[7]=="run" %}
         {% set content = post[4] %}
         <h3><span class="material-symbols-outlined">sprint</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
-        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+        <h4><a href="/profile/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
 
         <p>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;border-radius: 10px; border: 1px solid;padding:10px; background-color: rgb(226, 226, 226);">
@@ -78,7 +78,7 @@
 
         {% elif post[7]=="event" %}
         <h3><span class="material-symbols-outlined">event</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
-        <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
+        <h4><a href="/profile/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
 
 
         {% set content = post[4] %}
