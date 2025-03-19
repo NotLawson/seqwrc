@@ -117,13 +117,10 @@ def get_posts(user_id):
     return cursor.fetchall()
 def get_all_posts():
     cursor.execute('''
-    SELECT sub.*
-    FROM (SELECT * 
+          SELECT * 
           FROM posts 
           ORDER BY date DESC
           LIMIT 100
-         ) sub
-    ORDER BY date ASC;
     ''')
     return cursor.fetchall()
 def get_following_posts(username):
@@ -134,17 +131,14 @@ def get_following_posts(username):
     for user in following:
         cursor.execute(f"SELECT id FROM users WHERE username = '{user}'")
         following_ids.append(cursor.fetchone()[0])
-    following_ids = str(tuple(following_ids)).rstrip(",")
+    following_ids = str(tuple(following_ids)).rstrip(",")+")"
 
     cursor.execute(f'''
-    SELECT sub.*
-    FROM (SELECT * 
+          SELECT * 
           FROM posts
           WHERE user_id in {following_ids}
           ORDER BY date DESC
           LIMIT 100
-         ) sub
-    ORDER BY date ASC;
     ''')
     return cursor.fetchall()
 
