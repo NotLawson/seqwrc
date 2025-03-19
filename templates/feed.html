@@ -24,9 +24,6 @@
         <h3><span class="material-symbols-outlined">description</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
         <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
 
-        {% set content = post[4] %}
-        <p>{{ content["content"] }}</p>
-
         {% elif post[7]=="run" %}
         {% set content = post[4] %}
         <h3><span class="material-symbols-outlined">sprint</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
@@ -39,7 +36,6 @@
                 <span><span class="material-symbols-outlined">pace</span> Pace<br><span style="font-size: x-large;">{{content["pace"]}}min/km</span></span>
             </div>
         </p>
-        <p>{{content["description"]}}</p>
 
         {% elif post[7]=="event" %}
         <h3><span class="material-symbols-outlined">event</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
@@ -49,7 +45,6 @@
         {% set content = post[4] %}
         <p><span class="material-symbols-outlined">event</span> {{content["date"]}}</p>
         <p><span class="material-symbols-outlined">location_on</span> {{content["location"]}}</p>
-        <p>{{content["description"]}}</p>
                 
         {% else %}
         <p>Error: Post type unknown: {{ post[7] }}</p>
@@ -67,9 +62,6 @@
         <h3><span class="material-symbols-outlined">description</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
         <h4><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h4>
 
-        {% set content = post[4] %}
-        <p>{{ content["content"] }}</p>
-
         {% elif post[7]=="run" %}
         {% set content = post[4] %}
         <h3><span class="material-symbols-outlined">sprint</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
@@ -82,7 +74,7 @@
                 <span><span class="material-symbols-outlined">pace</span> Pace<br><span style="font-size: x-large;">{{content["pace"]}}min/km</span></span>
             </div>
         </p>
-        <p>{{content["description"]}}</p>
+
 
         {% elif post[7]=="event" %}
         <h3><span class="material-symbols-outlined">event</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>
@@ -92,7 +84,7 @@
         {% set content = post[4] %}
         <p><span class="material-symbols-outlined">event</span> {{content["date"]}}</p>
         <p><span class="material-symbols-outlined">location_on</span> {{content["location"]}}</p>
-        <p>{{content["description"]}}</p>
+
                 
         {% else %}
         <p>Error: Post type unknown: {{ post[7] }}</p>
