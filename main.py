@@ -576,7 +576,7 @@ def social_all_profiles():
     if user == None:
         return redirect('/login?next=/feed')
     
-    return render_template('profiles_home.html', user=user, get_user_id=get_user_id)
+    return render_template('profiles_home.html', user=user, get_user_id=get_user_id, len=len)
 
 @app.route('/profile/<username>', methods=['GET', 'POST'])
 def social_profile(username):
@@ -597,9 +597,7 @@ def social_profile(username):
     
     posts = get_posts(profile[0])
 
-    return render_template('profile.html', user=user, profile=profile, posts=posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
-
-    return main_not_built()
+    return render_template('profile.html', user=user, profile=profile, posts=posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'), len=len)
 
 @app.route('/profile/<username>/follow', methods=['GET', 'DELETE'])
 def social_follow(username):
@@ -608,7 +606,21 @@ def social_follow(username):
     Also unfollows a user
     See social_all_profiles for more info on profiles
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    
+    if request.method == "DELETE":
+        cursor.execute(f"UPDATE users SET following = array_remove(following, %s) WHERE username = %s", (user[1], username))
+        cursor.execute(f"UPDATE users SET followers = array_remove(followers, %s) WHERE username = %s", (username, user[1]))
+        return "done"
+
+    cursor.execute(f"UPDATE users SET following = array_append(following, %s) WHERE username = %s", (user[1], username))
+    cursor.execute(f"UPDATE users SET followers = array_append(followers, %s) WHERE username = %s", (username, user[1]))
+    return "done"
 
 @app.route('/profile/me/edit', methods=['GET', 'POST'])
 def social_edit_profile():
