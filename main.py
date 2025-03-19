@@ -4,35 +4,6 @@ import sys, os, time
 from datetime import datetime
 from datetime import timezone, timedelta
 import pytz
-import requests
-
-class DiscordLogging():
-    def __init__(self, stdout):
-        self.stdout = stdout
-
-    def write(self, message):
-        self.stdout.write(message)
-        self.discord(message)
-
-    def flush(self):
-        self.stdout.flush()
-
-    def discord(self, message):
-        # discord webhook
-        url = "https://discord.com/api/webhooks/1351708676557373531/-9AbumwU6qb3f3bN18QH9s7J1Rd9d8YR8aHM_sBQbaLfd5SmflFzNNrywk_nR7Z7X-F5"
-        data = {
-            "content" : message,
-            "username" : "SEQWRC Status Bot"
-        }
-        result = requests.post(url, json = data)
-        try:
-            result.raise_for_status()
-        except requests.exceptions.HTTPError as err:
-            pass
-
-
-stdout = sys.stdout
-sys.stdout=DiscordLogging(stdout) # set up logging to discord
 
 ## GET FLAGS ##
 args = sys.argv[1:]
@@ -483,8 +454,8 @@ def social_edit_post(post_id):
         elif type=="run":
             title = request.form['title']
             distance = request.form['distance']
-            minutes = request.form['minutes']
-            seconds = request.form['seconds']
+            minutes = int(request.form['minutes'])
+            seconds = int(request.form['seconds'])
             print("Minutes: "+minutes)
             print("Seconds: "+seconds)
             mins_in_seconds = (int(minutes))*60
