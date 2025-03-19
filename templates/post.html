@@ -16,7 +16,7 @@
     <h2><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h2>
     {% if post[7]=="post" %}
     {% set content = post[4] %}
-    <p>{{ content["content"] }}</p>
+    <pre>{{ content["content"] }}</pre>
 
     {% elif post[7]=="run" %}
     {% set content = post[4] %}
@@ -27,7 +27,7 @@
             <span>Pace<br><span style="font-size: x-large;">{{content["pace"]}}min/km</span></span>
         </div>
     </p>
-    <p>{{content["description"]}}</p>
+    <pre>{{content["description"]}}</pre>
 
     {% elif post[7]=="event" %}
     {% set content = post[4] %}
@@ -36,7 +36,7 @@
     
     {% else %}
     <p>Error: Post type unknown: {{ post[7] }}</p>
-    <p>{{ post[3] }}</p>
+    <pre>{{ post[3] }}</pre>
     {% endif %}
     
     <br>
