@@ -597,7 +597,7 @@ def social_profile(username):
     
     posts = get_posts(profile[0])
 
-    return render_template('profile.html', user=user, profile=profile, posts=posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'), len=len)
+    return render_template('profile.html', user=user, profile=profile, posts=posts, get_user_id=get_user_id, get_user=get_user, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'), len=len)
 
 @app.route('/profile/<username>/follow', methods=['GET', 'DELETE'])
 def social_follow(username):
