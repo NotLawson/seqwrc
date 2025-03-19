@@ -15,7 +15,7 @@
         <label for="title">Title</label><br>
         <input type="text" name="title" placeholder="Title" value="{{ post[0] }}" required><br><br>
         {% set content = post[4] %}
-        <textarea name="content" style="width: 50%; height: 300px;" placeholder="Content" required>content["description"]</textarea><br><br>
+        <textarea name="content" style="width: 50%; height: 300px;" placeholder="Content" required>{{ content["content"] }}</textarea><br><br>
         <input type="submit" value="Post">
     </form>
 </div>
@@ -36,7 +36,7 @@
             <input type="number" name="minutes" max=59 min=0 value="{{ time[0] }}" required>:<input type="number" name="seconds" max=59 min=0 value="{{ time[1] }}" required>
         </p><br>
         <label for="description">Description</label><br>
-        <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required>content["description"]</textarea><br><br>
+        <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required>{{ content["description"] }}</textarea><br><br>
         <input type="submit" value="Post">
     </form>
 </div>
@@ -56,7 +56,7 @@
         <input type="text" name="location" placeholder="Location" value="{{ content['location'] }}" required><br><br>
 
         <label for="description">Description</label><br>
-        <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required>content["description"]</textarea><br><br>
+        <textarea name="description" style="width: 50%; height: 200px;" placeholder="Description" required>{{ content["description"]  }}</textarea><br><br>
         <input type="submit" value="Post">
     </form>
 </div>
