@@ -13,7 +13,7 @@ class DiscordLogging():
     def write(self, message):
         self.stdout.write(message)
         self.discord(message)
-        
+
     def flush(self):
         self.stdout.flush()
 
@@ -485,27 +485,27 @@ def social_edit_post(post_id):
             distance = request.form['distance']
             minutes = request.form['minutes']
             seconds = request.form['seconds']
-            DiscordLogging.discord("Minutes: "+minutes)
-            DiscordLogging.discord("Seconds: "+seconds)
+            print("Minutes: "+minutes)
+            print("Seconds: "+seconds)
             mins_in_seconds = (int(minutes))*60
-            DiscordLogging.discord("Minutes in seconds: "+mins_in_seconds)
+            print("Minutes in seconds: "+mins_in_seconds)
             time = mins_in_seconds + int(seconds)
-            DiscordLogging.discord("Total Time", time)
+            print("Total Time", time)
             pace_in_seconds = int(time/float(distance))
-            DiscordLogging.discord("Pace in seconds: "+pace_in_seconds)
+            print("Pace in seconds: "+pace_in_seconds)
             pace_in_mins = str(float(pace_in_seconds/60)).split(".")
-            DiscordLogging.discord("Pace in mins as decimal list: "+pace_in_mins)
+            print("Pace in mins as decimal list: "+pace_in_mins)
 
             if len(pace_in_mins) == 1:
-                DiscordLogging.discord("One item in list")
+                print("One item in list")
                 pace_in_mins.append("00")
             else:
-                DiscordLogging.discord("Two items in list")
+                print("Two items in list")
                 pace_in_mins[1] = str(int(60*float("0."+pace_in_mins[1])))
-                DiscordLogging.discord("seconds: "+pace_in_mins[1])
+                print("seconds: "+pace_in_mins[1])
             
             pace = f'{pace_in_mins[0]}:{pace_in_mins[1]}'
-            DiscordLogging.discord("end pace: "+pace)
+            print("end pace: "+pace)
             time = f'{minutes}:{seconds}'
             description = request.form['description']
             data = {
