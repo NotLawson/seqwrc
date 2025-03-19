@@ -41,6 +41,7 @@
     
     <br>
     <p>{{ post[5]|length }} likes</p>
+    <p>{{user[0]}} in {{post[5]}}</p>
     {% if user[0] in post[5] %}
 
     <input type="button" value="Remove Like" onclick="fetch(window.location.href+'/like', {method: 'DELETE'}).then(response => window.location.reload());">
