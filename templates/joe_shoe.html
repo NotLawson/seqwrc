@@ -12,7 +12,7 @@
     {% endif %}
     <br>
     <h1>{{ shoe[1] }} {{ shoe[2] }}</h1>
-    <p>Brand: {{ shoe[1] }}</p>
+    <p>Brand: <a href="/joe/brand/{{ shoe[0] }}">{{ shoe[1] }}</a></p>
     <p>Price: ${{ shoe[5] }}</p>
     <p>Review:</p>
     <pre>{{ shoe[3] }}</pre>

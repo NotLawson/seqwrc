@@ -751,7 +751,7 @@ def joe_new_shoe():
     return render_template("joe_new_shoe.html", user=user)
 
 
-@app.route('/joe/shoes/tag/<tag>')
+@app.route('/joe/tag/<tag>')
 def joe_shoes_tag(tag):
     '''
     Displays all shoes with a specific tag
@@ -769,7 +769,7 @@ def joe_shoes_tag(tag):
 
     return render_template("joe_shoes_by_tag.html", user=user, shoes=shoes, tag=tag)
 
-@app.route('/joe/shoes/brand/<brand>')
+@app.route('/joe/brand/<brand>')
 def joe_shoes_brand(brand):
     '''
     Displays all shoes with a specific brand
