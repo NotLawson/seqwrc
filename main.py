@@ -3,6 +3,7 @@ import psycopg2, json
 import sys, os, time
 from datetime import datetime
 from datetime import timezone, timedelta
+import logging
 import pytz
 
 ## GET FLAGS ##
@@ -143,6 +144,7 @@ def get_following_posts(username):
 
 ## APP SETUP ##
 app = Flask(__name__)
+app.logger.setLevel(logging.DEBUG)
 TOKENS = {}
 
 def auth(request):
@@ -200,6 +202,7 @@ def main_contact():
         email = request.form['email']
         message = request.form['message']
         cursor.execute(f"INSERT INTO contact (name, email, message) VALUES ('{name}', '{email}', '{message}')")
+        app.logger.info(f"{name} ({email}) just send a message via the contact form")
         return render_template('contact.html', message_good=message, user=user)
     return render_template('contact.html', user=user)
 
@@ -217,7 +220,6 @@ def main_search_query(query):
     See main_search
     '''
     return main_not_built()
-
 ## ACCOUNTS ##
 @app.route('/login', methods=['GET', 'POST'])
 def accounts_login():
@@ -236,6 +238,8 @@ def accounts_login():
             # logged in
             token = os.urandom(16).hex()  # gen user id
             TOKENS[token] = user[0] # add to token store along with userId
+
+            app.logger.info(f"User {user[1]} has logged in (token {token})")
 
             url = request.args.get('next', '/') # get the redirect url
             resp = make_response(redirect(url))
@@ -257,6 +261,7 @@ def accounts_signup():
         name = request.form['name']
         try: 
             create_user(username, password, email, name)
+            app.logger.info(f"User {username} ({email}) has been created")
             return redirect('/login')
         except:
             return render_template('signup.html', message_bad="User already exists")
@@ -268,6 +273,8 @@ def accounts_logout():
     Signout endpoint for SEQWRC
     Redirects to main_index (/)
     '''
+    token = request.cookies["token"]
+    del TOKENS[token]
     resp = make_response(redirect('/'))
     resp.set_cookie('token', '', expires=0)
     return resp
@@ -289,6 +296,7 @@ def accounts_account():
     if request.method == "DELETE":
         # (endpoint)
         delete_user(id)
+        app.logger.info(f"Deleted user {id}")
         return "done"
     if request.method == "POST":
         # edit account
@@ -299,6 +307,7 @@ def accounts_account():
 
         cursor.execute(f"UPDATE users SET username = '{username}', password = '{password}', email = '{email}', name = '{name}' WHERE id = {id}")
         user = get_user_id(id)
+        app.logger.info(f"Updated user {username} ({email})")
         return render_template('account.html', user=user, message_good="Account updated")
     return render_template('account.html', user=user)
 
@@ -358,23 +367,29 @@ def social_new_post():
             }
             
         elif type=="run":
-            distance = request.form['distance']
-            hours = request.form['hours']
-            minutes = request.form['minutes']
-            seconds = request.form['seconds']
-            hours_in_mins = int(hours)*60
-            mins_in_seconds = (int(minutes)+hours_in_mins)*60
+            distance = float(request.form['distance'])
+            minutes = int(request.form['minutes'])
+            seconds = int(request.form['seconds'])
+            mins_in_seconds = (int(minutes))*60
             time = mins_in_seconds + int(seconds)
             pace_in_seconds = int(time/float(distance))
-            pace_in_mins = str(int(pace_in_seconds/60)).split(".")
-            pace_in_mins[0] = int(pace_in_mins[0])
+            pace_in_mins = str(float(pace_in_seconds/60)).split(".")
+
             if len(pace_in_mins) == 1:
-                pace_in_mins.append(0)
+                pace_in_mins.append("00")
             else:
-                pace_in_mins[1] = 60/int(pace_in_mins[1])
-            
+                pace_in_mins[1] = str(int(60*float("0."+pace_in_mins[1])))
+
             pace = f'{pace_in_mins[0]}:{pace_in_mins[1]}'
-            time = f'{hours}:{minutes}:{seconds}'
+            time = f'{minutes}:{seconds}'
+
+            app.logger.debug("New Run created:")
+            app.logger.debug(f" Minutes: {minutes}, Seconds: {seconds}, Distance: {distance}")
+            app.logger.debug(f" Time in seconds: {time}, Pace in seconds: {pace_in_seconds}")
+            app.logger.debug(f" Pace in minutes: {pace_in_mins}")
+
+            pace = f'{pace_in_mins[0]}:{pace_in_mins[1]}'
+            time = f'{minutes}:{seconds}'
             description = request.form['description']
             data = {
                 "distance": distance,
@@ -395,6 +410,7 @@ def social_new_post():
 
         date = datetime.now()
         cursor.execute("INSERT INTO posts (user_id, title, date, content, likes, comments, type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user[0], title, date, json.dumps(data), '{}', '{}', type))
+        app.logger.info(f"New post of type {type}, '{title}' by {user[1]}")
         return redirect(f'/feed')
 
     return render_template("new_post.html", user=user)
@@ -456,28 +472,19 @@ def social_edit_post(post_id):
             distance = request.form['distance']
             minutes = int(request.form['minutes'])
             seconds = int(request.form['seconds'])
-            print("Minutes: "+minutes)
-            print("Seconds: "+seconds)
             mins_in_seconds = (int(minutes))*60
-            print("Minutes in seconds: "+mins_in_seconds)
             time = mins_in_seconds + int(seconds)
-            print("Total Time", time)
             pace_in_seconds = int(time/float(distance))
-            print("Pace in seconds: "+pace_in_seconds)
             pace_in_mins = str(float(pace_in_seconds/60)).split(".")
-            print("Pace in mins as decimal list: "+pace_in_mins)
 
             if len(pace_in_mins) == 1:
-                print("One item in list")
                 pace_in_mins.append("00")
             else:
-                print("Two items in list")
                 pace_in_mins[1] = str(int(60*float("0."+pace_in_mins[1])))
-                print("seconds: "+pace_in_mins[1])
-            
+
             pace = f'{pace_in_mins[0]}:{pace_in_mins[1]}'
-            print("end pace: "+pace)
             time = f'{minutes}:{seconds}'
+            
             description = request.form['description']
             data = {
                 "distance": distance,
