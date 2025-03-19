@@ -822,7 +822,7 @@ def joe_edit_shoe(shoe_id):
         app.logger.info(f"Shoe {shoe_id} edited")
         return redirect(f'/joe/shoes/{shoe_id}')
 
-    return render_template("joe_edit_shoe.html", user=user, shoe=shoe)
+    return render_template("joe_shoes_edit.html", user=user, shoe=shoe)
 
 @app.route('/joe/shoe/<shoe_id>')
 def joe_shoe(shoe_id):
