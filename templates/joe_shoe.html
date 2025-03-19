@@ -6,6 +6,11 @@
 
 {% block content %}
 <div class="full">
+    <br>
+    {% if user[1] == "joe" %}
+    <a href="/joe/{{ shoe[0]}}/edit">Edit</a>
+    {% endif %}
+    <br>
     <h1>{{ shoe[1] }} {{ shoe[2] }}</h1>
     <p>Brand: {{ shoe[1] }}</p>
     <p>Price: ${{ shoe[5] }}</p>
