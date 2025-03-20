@@ -20,6 +20,7 @@
         <div id="tags">
             {% for tag in shoe[4] %}
             <input type="text" name="tag" placeholder="Tag" id="tag" value="tag" required><br>
+            {% endfor %}
         </div><br><br>
         <input type="button" value="Add Tag" onclick="add_tag()"><br><br>
         <input type="submit" value="Post">
