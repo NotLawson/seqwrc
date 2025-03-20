@@ -970,8 +970,7 @@ def admin_contact_message(message_id):
     if message == None:
         return redirect('/admin/contact')
     
-    return render_template('admin_contact_message.html', user=user, message=message)
+    return render_template('admin_contact_message.html', user=user, m=message)
 
-    return main_not_built()
 
 app.run("0.0.0.0", 8000, debug=True)

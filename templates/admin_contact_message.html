@@ -6,9 +6,9 @@
 
 {% block content %}
 <div class="full">
-<h1>{{ message[1] }} - {{ message[2] }}</h1>
-<pre>{{ message[3] }}</pre>
+<h1>{{ m[1] }} - {{ m[2] }}</h1>
+<pre>{{ m[3] }}</pre>
 <br>
-<input type="button" value="Delete" onclick="fetch(window.location.href, {method: 'DELETE'}).then(response => window.location.href = '/messages')">
+<input type="button" value="Delete" onclick="fetch(window.location.href, {method: 'DELETE'}).then(response => window.location.href = '/admin/contact')">
 </div>
 {% endblock %}
