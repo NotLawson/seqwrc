@@ -31,9 +31,8 @@
 
     {% elif post[7]=="event" %}
     {% set content = post[4] %}
-    <p>{{content["date"]}} | {{content["location"]}}</p>
-    <p>{{content["description"]}}</p>
-    
+    <p><span class="material-symbols-outlined">event</span> {{content["date"]}}</p>
+    <p><span class="material-symbols-outlined">location_on</span> {{content["location"]}}</p>
     {% else %}
     <p>Error: Post type unknown: {{ post[7] }}</p>
     <pre clas="content">{{ post[3] }}</pre>
