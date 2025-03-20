@@ -11,15 +11,15 @@
         {% if user[1]=="admin" %}
         <a href="/admin/contact">View messages</a>
         {% endif %}
-        
+
         <h1>Contact Us</h1>
         <h2>Fill out the form below to get in touch</h2>
 
         <label for="name">Name</label><br>
-        <input type="text" name="name" placeholder="Name" required><br>
+        <input type="text" name="name" value="{{ user[4] }}" placeholder="Name" required><br>
         <br>
         <label for="email">Email</label><br>
-        <input type="email" name="email" placeholder="Email" required><br>
+        <input type="email" name="email" value="{{ user[3] }}" placeholder="Email" required><br>
         <br>
         <label for="subject">Subject</label><br>
         <input type="text" name="subject" placeholder="Subject" required><br>
