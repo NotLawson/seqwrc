@@ -932,7 +932,18 @@ def admin_contact():
     Shows all contact tickets from the contact form
     See main_contact for more info on the contact form
     '''
-    return main_not_built()
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    if user[1]!="admin":
+        return redirect('/')
+    
+    cursor.execute("SELECT * FROM contact")
+    messages = cursor.fetchall()
+    return render_template('admin_contact.html', user=user, messages=messages)
 
 @app.route('/admin/contact/<message_id>', methods=['GET', 'DELETE'])
 def admin_contact_message(message_id):
@@ -941,6 +952,26 @@ def admin_contact_message(message_id):
     Also deletes a message
     See main_contact for more info on the contact form
     '''
+    id = auth(request)
+    if id == False:
+        return redirect('/login?next=/feed')
+    user = get_user_id(id)
+    if user == None:
+        return redirect('/login?next=/feed')
+    if user[1]!="admin":
+        return redirect('/')
+    
+    if request.method == "DELETE":
+        cursor.execute(f"DELETE FROM contact WHERE id = {message_id}")
+        return "done"
+    
+    cursor.execute(f"SELECT * FROM contact WHERE id = {message_id}")
+    message = cursor.fetchone()
+    if message == None:
+        return redirect('/admin/contact')
+    
+    return render_template('admin_contact_message.html', user=user, message=message)
+
     return main_not_built()
 
 app.run("0.0.0.0", 8000, debug=True)

@@ -8,6 +8,10 @@
 <form method="post">
 
     <div class="full">
+        {% if user[1]=="admin" %}
+        <a href="/admin/contact">View messages</a>
+        {% endif %}
+        
         <h1>Contact Us</h1>
         <h2>Fill out the form below to get in touch</h2>
 

@@ -1,0 +1,16 @@
+{% extends "main.html" %}
+
+{% block imports %}
+
+{% endblock %}
+
+{% block content %}
+<div class="full">
+<h1>Messages</h1>
+<ul>
+{% for message in messages %}
+    <li><a href="/admin/contact/{{message[0]}}">{{message[1]}} - {{message[2]}}</a></li>
+{% endfor %}
+</ul>
+</div>
+{% endblock %}

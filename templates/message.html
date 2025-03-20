@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+
+{% block imports %}
+
+{% endblock %}
+
+{% block content %}
+<div class="full">
+<h1>{{ message[1] }} - {{ message[2] }}</h1>
+<pre>{{ message[3] }}</pre>
+<br>
+<input type="button" value="Delete" onclick="fetch(window.location.href, {method: 'DELETE'}).then(response => window.location.href = '/messages')">
+</div>
+{% endblock %}
