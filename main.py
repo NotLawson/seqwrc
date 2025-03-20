@@ -764,7 +764,7 @@ def joe_shoes_tag(tag):
     if user == None:
         return redirect('/login?next=/feed')
     
-    cursor.execute(f"SELECT * FROM shoes WHERE %s = ANY(shoes.tag)", (tag,))
+    cursor.execute(f"SELECT * FROM shoes WHERE %s = ANY(shoes.tags)", (tag,))
     shoes = cursor.fetchall()
 
     return render_template("joe_shoes_by_tag.html", user=user, shoes=shoes, tag=tag)
