@@ -764,7 +764,7 @@ def joe_shoes_tag(tag):
     if user == None:
         return redirect('/login?next=/feed')
     
-    cursor.execute(f"SELECT * FROM shoes WHERE tags contains %s", (tag,))
+    cursor.execute(f"SELECT * FROM shoes WHERE %s in ANY(tag)", (tag,))
     shoes = cursor.fetchall()
 
     return render_template("joe_shoes_by_tag.html", user=user, shoes=shoes, tag=tag)
@@ -785,7 +785,7 @@ def joe_shoes_brand(brand):
     cursor.execute(f"SELECT * FROM shoes WHERE brand = %s", (brand,))
     shoes = cursor.fetchall()
 
-    return render_template("joe_shoes_by_tag.html", user=user, shoes=shoes, brand=brand)
+    return render_template("joe_shoes_by_brand.html", user=user, shoes=shoes, brand=brand)
 
 @app.route('/joe/shoe/<shoe_id>/edit', methods=['GET', 'POST', 'DELETE'])
 def joe_edit_shoe(shoe_id):
