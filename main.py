@@ -197,7 +197,7 @@ def main_about():
         leaderboard[user_id] += distance
 
     leaderboard = list(zip(leaderboard.keys(), leaderboard.values()))
-    leaderboard = leaderboard.sort(key=leaderboard_sort, reverse=True)
+    leaderboard.sort(key=leaderboard_sort, reverse=True)
 
     id=auth(request)
     if id == False:
