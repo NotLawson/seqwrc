@@ -74,17 +74,6 @@ if LOCAL == False:
     ''')
 
     cursor.execute('''
-    CREATE TABLE IF NOT EXISTS blog (
-        id SERIAL PRIMARY KEY,
-        title VARCHAR(50) NOT NULL,
-        date DATE NOT NULL,
-        content TEXT NOT NULL,
-        comments TEXT[],
-        tags TEXT[]
-    )
-    ''')
-
-    cursor.execute('''
     CREATE TABLE IF NOT EXISTS contact (
         id SERIAL PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
@@ -184,12 +173,32 @@ def main_about():
     '''
     About page for SEQWRC
     '''
+
+    dt = datetime.now()
+    start = dt - timedelta(days=dt.weekday())
+    end = start + timedelta(days=6)
+
+    cursor.execute("SELECT * FROM posts WHERE date >= %s::timestamp AND date <= %s::timestamp AND type = 'run'", (start, end))
+    posts = cursor.fetchall()
+
+    leaderboard = {}
+    cursor.execute("SELECT * FROM users")
+    for user in cursor.fetchall():
+        leaderboard[user[0]] = 0
+
+    for post in posts:
+        user_id = post[1]
+        post_data = json.loads(post[4])
+        distance = post_data['distance']
+
+        leaderboard[user_id] += distance
+
     id=auth(request)
     if id == False:
-        return render_template('about.html')
-    else:
-        user = get_user_id(id)
-        return render_template('about.html', user=user)
+        return render_template('about.html', leaderboard=leaderboard)
+    user = get_user_id(id)
+
+    return render_template('about.html', user=user, leaderboard=leaderboard)
 
 
 @app.route('/contact', methods=['GET', 'POST'])

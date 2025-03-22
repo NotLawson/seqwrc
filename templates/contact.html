@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 
 {% block imports %}
-<link rel="stylesheet" href="/static/main.css">
+<script src="/static/contact.js" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -22,10 +22,10 @@
         <input type="email" name="email" value="{{ user[3] }}" placeholder="Email" required><br>
         <br>
         <label for="subject">Subject</label><br>
-        <input type="text" name="subject" placeholder="Subject" required><br>
+        <input type="text" name="subject" id="subject" placeholder="Subject" required><br>
         <br>
         <label for="message">Message</label><br>
-        <textarea name="message" placeholder="Message" required></textarea><br>
+        <textarea name="message" placeholder="Message" id="message" required></textarea><br>
         <br>
         <button type="submit">Send</button>
     </div>
