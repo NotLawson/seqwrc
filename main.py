@@ -102,7 +102,7 @@ def get_post(post_id):
     cursor.execute(f'SELECT * FROM posts WHERE id = {post_id}')
     return cursor.fetchone()
 def get_posts(user_id):
-    cursor.execute(f'SELECT * FROM posts WHERE user_id = {user_id}')
+    cursor.execute(f'SELECT * FROM posts WHERE user_id = {user_id} ORDER BY date DESC')
     return cursor.fetchall()
 def get_all_posts():
     cursor.execute('''
