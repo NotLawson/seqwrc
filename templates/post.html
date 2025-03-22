@@ -40,6 +40,8 @@
     {% set content = post[4] %}
     <p><span class="material-symbols-outlined">event</span> {{content["date"]}}</p>
     <p><span class="material-symbols-outlined">location_on</span> {{content["location"]}}</p>
+    <pre class="content">{{content["description"]}}</pre>
+
     {% else %}
     <p>Error: Post type unknown: {{ post[7] }}</p>
     <pre clas="content">{{ post[3] }}</pre>
