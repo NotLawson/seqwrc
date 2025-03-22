@@ -201,10 +201,10 @@ def main_about():
 
     id=auth(request)
     if id == False:
-        return render_template('about.html', leaderboard=leaderboard, members=users)
+        return render_template('about.html', leaderboard=leaderboard, members=users, get_user_id=get_user_id)
     user = get_user_id(id)
 
-    return render_template('about.html', user=user, leaderboard=leaderboard, members=users)
+    return render_template('about.html', user=user, leaderboard=leaderboard, members=users, get_user_id=get_user_id)
 
 
 @app.route('/contact', methods=['GET', 'POST'])

@@ -28,13 +28,20 @@
 
     <div class="full">
         <h2>Our Members</h2>
+        <ul>
         {% for member in members  %}
-            <a href="/profile/{{ member[1] }}">{{ member[4] }}</a>
+            <li><a href="/profile/{{ member[1] }}">{{ member[4] }}</a></li>
         {% endfor %}
+        </ul>
+        <br>
         <h3>El Chumpo of the week<h3>
+        <ol>
         {% for member in leaderboard  %}
-            <a href="/profile/{{ member[1] }}">{{ member[4] }}</a>
+            {% set distance = member[1] %}
+            {% set member = get_user_id(member[0]) %}
+            <li><a href="/profile/{{ member[1] }}">{{ member[4] }}</a> - {{ distance }}km<br></li>
         {% endfor %}
+        </ol>
         <p>Want to become a member? Click <a href="/signup">here</a> to signup and log your runs, participate in events and engage with our amazing community!</p>
     </div>
 
