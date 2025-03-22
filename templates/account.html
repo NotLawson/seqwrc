@@ -27,9 +27,9 @@
     </div>
 </div>
 <script>
-    function deleteAccount() {
+    async function deleteAccount() {
         if (confirm("Are you sure you want to delete your account?")) {
-            fetch("/account", {
+            await fetch("/account", {
                 method: "DELETE"
             });
             debugger;
