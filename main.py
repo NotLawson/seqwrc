@@ -188,7 +188,7 @@ def main_about():
 
     for post in posts:
         user_id = post[1]
-        post_data = json.loads(post[4])
+        post_data = post[4]
         distance = post_data['distance']
 
         leaderboard[user_id] += distance
