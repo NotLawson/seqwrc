@@ -194,7 +194,7 @@ def main_about():
         post_data = post[4]
         distance = post_data['distance']
 
-        leaderboard[user_id] += distance
+        leaderboard[user_id] += int(distance)
 
     leaderboard = list(zip(leaderboard.keys(), leaderboard.values()))
     leaderboard.sort(key=leaderboard_sort, reverse=True)
