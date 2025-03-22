@@ -19,6 +19,8 @@
     {% for post in following %}
     <div class="post" id="{{ post[0] }}">
         {% set post_user = get_user_id(post[1]) %}
+        {% if post_user == None %}
+        {% set post_user = ('deleted', 0, 0, 0, 'Deleted User') %}
 
         {% if post[7]=="post" %}
         <h3><span class="material-symbols-outlined">description</span> <a href="/feed/{{ post[0] }}">{{ post[2] }}</a></h3>

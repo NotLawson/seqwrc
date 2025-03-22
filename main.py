@@ -579,6 +579,19 @@ def social_all_profiles():
     if user == None:
         return redirect('/login?next=/profile')
     
+    # check for bad users
+    followers = user[6]
+    following = user[7]
+
+    for follower in followers:
+        if get_user(follower)==None:
+            followers.remove(follower)
+    for follow in following:
+        if get_user(follow)==None:
+            following.remove(follow)
+    cursor.execute("UPDATE users SET followers = %s WHERE id = %s", (followers, user[0]))
+    cursor.execute("UPDATE users SET following = %s WHERE id = %s", (following, user[0]))
+    
     return render_template('profiles_home.html', user=user, get_user_id=get_user_id, get_user=get_user, len=len)
 
 @app.route('/profile/<username>', methods=['GET', 'POST'])
@@ -597,11 +610,26 @@ def social_profile(username):
     if username == user[1]:
         return redirect('/profile/me')
     
+    if username=="deleted":
+        return render_template("deleted_user.html", user=user)
+    
     profile = get_user(username)
     if profile == None:
-        return render_template("profile_not_found.html")
+        return render_template("profile_not_found.html", user=user)
     
     posts = get_posts(profile[0])
+
+    # check for bad users
+    followers = profile[6]
+    following = profile[7]
+    for follower in followers:
+        if get_user(follower)==None:
+            followers.remove(follower)
+    for follow in following:
+        if get_user(follow)==None:
+            following.remove(follow)
+    cursor.execute("UPDATE users SET followers = %s WHERE id = %s", (followers, profile[0]))
+    cursor.execute("UPDATE users SET following = %s WHERE id = %s", (following, profile[0]))
 
     return render_template('profile.html', user=user, profile=profile, posts=posts, get_user_id=get_user_id, get_user=get_user, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'), len=len)
 
