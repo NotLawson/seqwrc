@@ -137,6 +137,8 @@ def get_following_posts(username):
     ''')
     return cursor.fetchall()
 
+def leaderboard_sort(e):
+    return e[1]
 
 ## APP SETUP ##
 app = Flask(__name__)
@@ -183,7 +185,8 @@ def main_about():
 
     leaderboard = {}
     cursor.execute("SELECT * FROM users")
-    for user in cursor.fetchall():
+    users = cursor.fetchall()
+    for user in users:
         leaderboard[user[0]] = 0
 
     for post in posts:
@@ -193,12 +196,15 @@ def main_about():
 
         leaderboard[user_id] += distance
 
+    leaderboard = zip(leaderboard.keys(), leaderboard.values())
+    leaderboard = leaderboard.sort(key=leaderboard_sort, reverse=True)
+
     id=auth(request)
     if id == False:
-        return render_template('about.html', members=leaderboard)
+        return render_template('about.html', leaderboard=leaderboard, members=users)
     user = get_user_id(id)
 
-    return render_template('about.html', user=user, members=leaderboard)
+    return render_template('about.html', user=user, leaderboard=leaderboard, members=users)
 
 
 @app.route('/contact', methods=['GET', 'POST'])

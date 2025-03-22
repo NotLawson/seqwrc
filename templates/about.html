@@ -29,7 +29,11 @@
     <div class="full">
         <h2>Our Members</h2>
         {% for member in members  %}
-            <a href="/profile/{{ member[1] }}">{{ member[4] }}</a><br>
+            <a href="/profile/{{ member[1] }}">{{ member[4] }}</a>
+        {% endfor %}
+        <h3>El Chumpo of the week<h3>
+        {% for member in leaderboard  %}
+            <a href="/profile/{{ member[1] }}">{{ member[4] }}</a>
         {% endfor %}
         <p>Want to become a member? Click <a href="/signup">here</a> to signup and log your runs, participate in events and engage with our amazing community!</p>
     </div>
