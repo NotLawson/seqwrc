@@ -369,10 +369,10 @@ def social_new_post():
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/feed/new')
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/feed/new')
     
     if request.method == "POST":
         title = request.form['title']
@@ -439,10 +439,10 @@ def social_post(post_id):
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/feed/'+post_id)
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/feed/'+post_id)
     
     post = get_post(post_id)
     if post == None:
@@ -459,10 +459,10 @@ def social_edit_post(post_id):
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/feed/'+post_id+"/edit")
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/feed/'+post_id+"/edit")
     post = get_post(post_id)
 
     if user[0]!=post[1]:
@@ -535,10 +535,10 @@ def social_like_post(post_id):
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return "not authed"
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return "not authed"
     post = get_post(post_id)
     if request.method == "DELETE":
         likes = post[5]
@@ -553,16 +553,6 @@ def social_like_post(post_id):
     app.logger.info(f"User {user[1]} liked post {post_id}")
     return "done"
 
-@app.route('/feed/<post_id>/comment', methods=['POST', 'DELETE'])
-def social_comment_post(post_id):
-    '''
-    (endpoint) Comments on a post
-    # note: most likely will not be implemented #
-    Also deletes a comment
-    See social_feed for more info on posts
-    '''
-    return main_not_built()
-
 @app.route('/profile', methods=['GET', 'POST'])
 def social_all_profiles():
     '''
@@ -573,24 +563,15 @@ def social_all_profiles():
      - Bio: The bio of the user. This can contain Markdown, but no HTML. This cannot contain images or videos
      - Followers: A list of users who follow the user
      - Following: A list of users who the user follows
-     - Posts: A list of posts by the user. This includes Runs and Events
-     - Gear: A list of gear that the user uses. This includes shoes
-        - Name: The name of the shoe
-        - Brand: The brand of the shoe
-        - Model: The model of the shoe
-        - Distance: The distance the shoe has been used for
-        - Date: The date the shoe was added
-        - Retired: Whether the shoe has been retired or not
-     - Events: A list of events that the user has participated in (NOT CREATED: SEE Posts)
 
     This page will display diplay a search bar, current followers/following, recomended users
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/profile')
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/profile')
     
     return render_template('profiles_home.html', user=user, get_user_id=get_user_id, get_user=get_user, len=len)
 
@@ -602,10 +583,10 @@ def social_profile(username):
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/profile/'+username)
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/profile/'+username)
     
     if username == user[1]:
         return redirect('/profile/me')
@@ -627,10 +608,10 @@ def social_follow(username):
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return "not authed"
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return "not authed"
     
     if request.method == "DELETE":
         cursor.execute(f"UPDATE users SET following = array_remove(following, %s) WHERE username = %s", (username, user[1]))
@@ -645,10 +626,10 @@ def social_follow(username):
 def social_my_profile():
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/profile/me')
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/profile/me')
     
     username = user[1]
     
@@ -668,10 +649,10 @@ def social_edit_profile():
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/profile/me/edit')
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/profile/me/edit')
     
     if request.method == "POST":
         bio = request.form['bio']
@@ -695,10 +676,10 @@ def joe_index():
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe')
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe')
     
     cursor.execute("SELECT * FROM shoes LIMIT 3")
     shoes = cursor.fetchall()
@@ -727,10 +708,10 @@ def joe_shoes():
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/shoes')
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/shoes')
     
     cursor.execute("SELECT * FROM shoes")
     shoes = cursor.fetchall()
@@ -740,10 +721,10 @@ def joe_shoes():
 def joe_new_shoe():
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/shoes/new')
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/shoes/new')
     if user[1]!="joe":
         return redirect('/')
     
@@ -768,10 +749,10 @@ def joe_shoes_tag(tag):
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/tag/'+tag)
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/tag/'+tag)
     
     cursor.execute(f"SELECT * FROM shoes WHERE %s = ANY(shoes.tags)", (tag,))
     shoes = cursor.fetchall()
@@ -786,10 +767,10 @@ def joe_shoes_brand(brand):
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/brand/'+brand)
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/brand/'+brand)
     
     cursor.execute(f"SELECT * FROM shoes WHERE brand = %s", (brand,))
     shoes = cursor.fetchall()
@@ -805,10 +786,10 @@ def joe_edit_shoe(shoe_id):
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/shoe/'+shoe_id+"/edit")
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/shoe/'+shoe_id+"/edit")
     if user[1]!="joe":
         return redirect('/')
     
@@ -841,10 +822,10 @@ def joe_shoe(shoe_id):
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/shoe/'+shoe_id)
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/shoe/'+shoe_id)
     
     cursor.execute(f"SELECT * FROM shoes WHERE id = {shoe_id}")
     shoe = cursor.fetchone()
@@ -864,10 +845,10 @@ def joe_posts():
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/posts')
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/joe/posts')
     
     cursor.execute("SELECT id FROM users WHERE username = 'joe'")
     joe_id = cursor.fetchone()[0]
@@ -877,64 +858,6 @@ def joe_posts():
     return render_template("joe_posts.html", user=user, posts=posts, get_user_id=get_user_id, json=json, str=str, tz=pytz.timezone('Australia/Brisbane'))
 
 ## ADMIN ##
-@app.route('/admin', methods=['GET', 'POST'])
-def admin_admin():
-    '''
-    Admin page for SEQWRC
-    This section allows for admins to view and control users accounts, posts, the contact form and Joe's Shoes
-    '''
-    return main_not_built()
-
-@app.route('/admin/users', methods=['GET', 'POST'])
-def admin_users():
-    '''
-    Displays all users
-    See main_login for more info on accounts
-    '''
-    return main_not_built()
-
-@app.route('/admin/users/<username>', methods=['GET', 'POST'])
-def admin_user(username):
-    '''
-    Displays a specific user
-    See main_login for more info on accounts
-    '''
-    return main_not_built()
-
-@app.route('/admin/users/<username>/edit', methods=['GET', 'POST', 'DELETE'])
-def admin_edit_user(username):
-    '''
-    Edits a user
-    Also deletes a user
-    See main_login for more info on accounts
-    '''
-    return main_not_built()
-
-@app.route('/admin/posts', methods=['GET', 'POST'])
-def admin_posts():
-    '''
-    Displays all posts
-    See social_feed for more info on posts
-    '''
-    return main_not_built()
-
-@app.route('/admin/posts/<post_id>', methods=['GET', 'POST', 'DELETE'])
-def admin_post(post_id):
-    '''
-    Displays a specific post
-    See social_feed for more info on posts
-    '''
-    return main_not_built()
-
-@app.route('/admin/posts/<post_id>/edit', methods=['GET', 'POST', 'DELETE'])
-def admin_edit_post(post_id):
-    '''
-    Edits a post on behalf of the user
-    Also deletes a post
-    See social_feed for more info on posts
-    '''
-    return main_not_built()
-
 @app.route('/admin/contact')
 def admin_contact():
     '''
@@ -943,10 +866,10 @@ def admin_contact():
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/admin/contact')
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/admin/contact')
     if user[1]!="admin":
         return redirect('/')
     
@@ -963,10 +886,10 @@ def admin_contact_message(message_id):
     '''
     id = auth(request)
     if id == False:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/admin/contact')
     user = get_user_id(id)
     if user == None:
-        return redirect('/login?next=/feed')
+        return redirect('/login?next=/admin/contact')
     if user[1]!="admin":
         return redirect('/')
     
