@@ -17,7 +17,7 @@
     {% endif %}
     
     <h1>{{ post[2] }}</h1>
-    <h2><a href="/profiles/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h2>
+    <h2><a href="/profile/{{ post_user[1] }}">{{ post_user[4] }}</a>  |  {{ post[3].astimezone(tz).strftime("%d/%m/%Y %H:%M") }}</h2>
     {% if post[7]=="post" %}
     {% set content = post[4] %}
     <pre class="content">{{ content["content"] }}</pre>
